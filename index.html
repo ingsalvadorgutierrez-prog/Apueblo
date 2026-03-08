@@ -1,0 +1,4555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>La App del Pueblo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+margin:0;
+font-family:'Segoe UI', sans-serif;
+background:#f5f6fa;
+color:#111;
+}
+.hidden{display:none}
+.container{
+padding:20px;
+padding-bottom:90px;
+background:#f5f6fa;
+}
+h1,h2{text-align:center}
+
+button{
+width:100%;
+padding:13px;
+margin-top:12px;
+border:none;
+border-radius:14px;
+background:linear-gradient(135deg,#1f6feb,#3b82f6);
+color:#ffffff;
+font-size:16px;
+font-weight:bold;
+box-shadow:0 8px 20px rgba(31,111,235,.4);
+transition:.2s;
+}
+
+button:active{
+transform:scale(.97);
+}
+
+.menu-btn{background:#28a745}
+.back-btn{background:#6c757d}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #1f2a44;
+background:#121826;
+color:#ffffff;
+outline:none;
+transition:.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border:1px solid #1f6feb;
+box-shadow:0 0 0 2px rgba(31,111,235,.3);
+}
+
+input::placeholder,
+textarea::placeholder{
+color:#6b7280;
+}
+
+textarea{resize:none}
+
+.card{
+background:#fff;
+border-radius:12px;
+padding:10px;
+margin-top:12px;
+box-shadow:0 2px 5px rgba(0,0,0,.2)
+}
+
+.card img{
+width:100%;
+max-height:180px;
+object-fit:cover;
+border-radius:8px
+}
+
+.btns{
+display:flex;
+gap:10px;
+margin-top:8px;
+flex-wrap:wrap
+}
+
+.btn-call{
+flex:1;
+background:#28a745;
+color:#fff;
+text-align:center;
+padding:10px;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold
+}
+
+.btn-wa{
+flex:1;
+background:#25D366;
+color:#fff;
+text-align:center;
+padding:10px;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold
+}
+
+.btn-map{
+flex:1;
+background:#ffc107;
+color:#000;
+text-align:center;
+padding:10px;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold
+}
+
+.abierto{color:#28a745;font-weight:bold}
+.cerrado{color:#dc3545;font-weight:bold}
+
+#buscador{margin:10px 0;font-size:16px}
+
+#notificacion{
+position:fixed;
+top:20px;
+right:20px;
+padding:10px 20px;
+border-radius:8px;
+display:none;
+font-weight:bold;
+color:#fff;
+z-index:1000
+}
+
+/* ===== SUBCATEGORIAS COMIDA ===== */
+#subcategoriasComida{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+margin-top:15px;
+}
+
+.subcat-btn{
+background:#fff;
+border-radius:14px;
+padding:20px 10px;
+text-align:center;
+font-size:16px;
+font-weight:bold;
+box-shadow:0 2px 5px rgba(0,0,0,.15);
+border:none;
+display:flex;
+flex-direction:column;
+gap:8px;
+justify-content:center;
+align-items:center;
+}
+
+.subcat-btn span{
+font-size:15px;
+color:#333;
+}
+
+.subcat-btn:active{transform:scale(.97)}
+.boton-flotante-vender{
+position:fixed;
+right:15px;
+left:auto;
+
+width:56px;
+height:56px;
+
+background:#28a745;
+color:#fff;
+border:none;
+border-radius:50%;
+
+padding:0;
+margin:0;
+
+font-size:22px;
+font-weight:bold;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+box-shadow:0 6px 18px rgba(0,0,0,.35);
+z-index:9999;
+}
+#btnFlotanteVender{ bottom:80px; }
+#btnFlotanteVacante{ bottom:15px; background:#17a2b8; }
+.boton-flotante-vender:active{
+transform:scale(.96);
+}
+.fav-btn{
+width:auto !important;
+min-width:42px;
+padding:6px 10px;
+font-size:18px;
+background:#fff;
+border-radius:10px;
+box-shadow:0 1px 3px rgba(0,0,0,.2);
+margin:0;
+}
+
+
+@keyframes subir{
+from{transform:translateY(40px);opacity:.2}
+to{transform:translateY(0);opacity:1}
+}
+/* BOTONES FLOTANTES MINI PRO */
+.fab{
+position:fixed;
+right:15px;
+width:56px;
+height:56px;
+border-radius:50%;
+border:none;
+color:white;
+font-size:22px;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 4px 10px rgba(0,0,0,.3);
+z-index:999;
+cursor:pointer;
+}
+
+#btnVender{
+bottom:80px;
+background:#28a745;
+}
+
+#btnVacante{
+bottom:15px;
+background:#007bff;
+}
+.statsAdmin{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:15px;
+}
+
+.cardStat{
+background:#121826;
+padding:12px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+
+.cardStat .num{
+font-size:22px;
+font-weight:bold;
+color:#1f6feb;
+}
+
+.cardStat .txt{
+font-size:12px;
+color:#555;
+}
+.rating{
+display:flex;
+align-items:center;
+gap:6px;
+margin-top:6px;
+font-weight:bold;
+}
+
+.star{
+font-size:30px;
+color:#ddd;
+cursor:pointer;
+transition:.2s;
+}
+
+.star:hover{
+transform:scale(1.15);
+}
+
+.star.activa{
+color:#ffc107;
+transform:scale(1.1);
+}
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.5);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:3000;
+}
+
+.modal-content{
+background:white;
+padding:20px;
+border-radius:12px;
+width:90%;
+max-width:400px;
+animation:subir .25s ease;
+}
+/* ===== TARJETA PRO ===== */
+
+.card{
+  border-radius:16px;
+  padding:0;
+  margin-top:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  overflow:hidden;
+  animation:subir .25s ease;
+}
+.card-light{
+  background:#ffffff;
+  color:#111;
+}
+.card-dark{
+  background:#111;
+  color:#ffffff;
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:0;
+}
+
+.card-body{
+padding:14px;
+}
+
+.card-title{
+font-size:20px;
+font-weight:bold;
+margin:0 0 4px 0;
+}
+
+.card-rating{
+font-size:14px;
+color:#555;
+margin-bottom:6px;
+}
+
+.badge-estado{
+display:inline-block;
+padding:6px 10px;
+border-radius:20px;
+font-weight:bold;
+font-size:13px;
+margin:6px 0;
+}
+
+.badge-abierto{
+background:#e6f6ec;
+color:#1e7e34;
+}
+
+.badge-cerrado{
+background:#fdecea;
+color:#b02a37;
+}
+
+.badge-pronto{
+background:#fff3cd;
+color:#856404;
+}
+
+.card-info{
+font-size:14px;
+margin:4px 0;
+color:#444;
+}
+
+.card-desc{
+font-size:14px;
+color:#666;
+margin-top:6px;
+}
+
+.card-actions{
+display:flex;
+gap:8px;
+margin-top:12px;
+}
+
+.card-actions a{
+flex:1;
+text-align:center;
+padding:11px;
+border-radius:10px;
+font-weight:bold;
+text-decoration:none;
+color:white;
+}
+
+.call{background:#28a745;}
+.wa{background:#25D366;}
+.map{background:#ffc107;color:#000;}
+/* ====== TARJETA GASTRONÓMICA ====== */
+
+.food-card{
+  background:#111;
+  color:white;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.25);
+}
+
+.food-img-container{
+  position:relative;
+  height:220px;
+  overflow:hidden;
+}
+
+.food-img-container img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.food-overlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  padding:20px;
+  background:linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
+}
+
+.food-title{
+  font-size:24px;
+  font-weight:bold;
+}
+
+.food-rating{
+  position:absolute;
+  top:15px;
+  right:15px;
+  background:white;
+  color:black;
+  padding:5px 12px;
+  border-radius:20px;
+  font-weight:bold;
+}
+
+.food-content{
+  padding:20px;
+}
+
+.food-status{
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.food-hours{
+  color:#bbb;
+  margin-bottom:15px;
+}
+
+.food-section{
+  margin-bottom:15px;
+}
+
+.food-specialties{
+  color:#f5b400;
+  font-weight:500;
+}
+
+.food-delivery{
+  font-weight:bold;
+  color:#00d26a;
+}
+
+.food-location{
+  color:#ccc;
+}
+
+.food-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+
+.food-buttons button{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn-call{ background:#eee; }
+.btn-wa{ background:#25D366; color:white; }
+.btn-map{ background:#444; color:white; }
+
+.food-rate{
+  margin-top:20px;
+  background:linear-gradient(45deg,#ffb300,#ff8f00);
+  padding:15px;
+  text-align:center;
+  font-weight:bold;
+  border-radius:12px;
+  color:black;
+  cursor:pointer;
+}
+@keyframes latido {
+0% { transform: scale(1); }
+25% { transform: scale(1.3); }
+40% { transform: scale(1); }
+60% { transform: scale(1.3); }
+100% { transform: scale(1); }
+}
+
+.fav-animar {
+animation: latido .4s ease;
+}
+.headerInicio{
+background:linear-gradient(180deg,#f7b733,#ffd98a);
+padding:25px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.headerInicio h1{
+margin:0;
+font-size:26px;
+font-weight:700;
+}
+
+.headerInicio p{
+margin-top:5px;
+color:#444;
+}
+.buscadorModerno{
+background:white;
+border-radius:25px;
+padding:12px 15px;
+display:flex;
+align-items:center;
+gap:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+margin-bottom:20px;
+}
+
+.buscadorModerno{
+background:white;
+border-radius:25px;
+padding:8px 14px;
+display:flex;
+align-items:center;
+gap:8px;
+box-shadow:0 4px 10px rgba(0,0,0,0.12);
+margin-top:-30px;
+margin-bottom:18px;
+}
+
+.buscadorModerno span{
+font-size:18px;
+}
+
+.buscadorModerno input{
+border:none;
+outline:none;
+width:100%;
+font-size:15px;
+background:transparent;
+}
+
+.filtroBtn{
+background:#eef1f6;
+border:none;
+border-radius:12px;
+padding:6px 10px;
+font-size:16px;
+}
+.tituloPromociones{
+margin:20px 0 8px 12px;
+font-size:20px;
+font-weight:700;
+color:#ff6a00;
+}
+
+.destacadosScroll{
+display:flex;
+overflow-x:auto;
+gap:12px;
+padding:10px;
+}
+
+.tarjetaNegocio{
+min-width:160px;
+background:white;
+border-radius:15px;
+box-shadow:0 4px 12px rgba(0,0,0,0.15);
+padding:10px;
+}
+
+.tarjetaNegocio img{
+width:100%;
+height:90px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.tarjetaNegocio h4{
+margin:5px 0;
+font-size:15px;
+}
+
+.tarjetaNegocio p{
+margin:0;
+font-size:13px;
+color:#555;
+}
+.categoriasGrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:20px;
+}
+
+.categoriaCard{
+background:white;
+border-radius:16px;
+padding:14px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+cursor:pointer;
+}
+
+.categoriaLeft{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:600;
+}
+
+.iconoCategoria{
+width:38px;
+height:38px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#f2f3f7;
+font-size:20px;
+}
+.iconoComida{
+background:#ffe2b8;
+}
+
+.iconoTaxi{
+background:#fff3a6;
+}
+
+.iconoConsume{
+background:#eadcff;
+}
+
+.iconoServicios{
+background:#dfeaff;
+}
+
+.iconoOfertas{
+background:#ffe3d6;
+}
+
+.iconoVentas{
+background:#ffe9a8;
+}
+
+.iconoNumeros{
+background:#ffdcdc;
+}
+
+.iconoRegistro{
+background:#e2e2e2;
+}
+
+.iconoFavoritos{
+background:#ffd6d6;
+}
+
+.iconoPublicaciones{
+background:#e5e5e5;
+}
+.flecha{
+color:#aaa;
+font-size:18px;
+}
+.barraInferior{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:white;
+display:flex;
+justify-content:space-around;
+align-items:center;
+padding:8px 0;
+border-top:1px solid #eee;
+box-shadow:0 -2px 10px rgba(0,0,0,0.05);
+z-index:9999;
+}
+
+.navItem{
+display:flex;
+flex-direction:column;
+align-items:center;
+font-size:12px;
+color:#777;
+cursor:pointer;
+}
+
+.navItem span{
+font-size:22px;
+}
+
+.navItem.activo{
+color:#ff7a00;
+font-weight:600;
+}
+.back-btn{
+background:#6c757d;
+margin-top:20px;
+}
+.tarjetaOferta{
+min-width:160px;
+background:#fff5e6;
+border-radius:15px;
+box-shadow:0 4px 12px rgba(0,0,0,0.15);
+padding:10px;
+}
+
+.tarjetaOferta img{
+width:100%;
+height:90px;
+object-fit:cover;
+border-radius:10px;
+}
+.tarjetaOferta{
+background:white;
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 6px 16px rgba(0,0,0,0.15);
+width:230px;
+margin-right:12px;
+}
+
+.promoImgContainer{
+position:relative;
+}
+
+.promoImg{
+width:100%;
+height:140px;
+object-fit:cover;
+}
+
+.promoBadge{
+position:absolute;
+top:8px;
+left:8px;
+background:#ff3b30;
+color:white;
+font-size:12px;
+font-weight:bold;
+padding:4px 8px;
+border-radius:8px;
+}
+
+.promoInfo{
+padding:12px;
+}
+
+.promoPrecio{
+font-size:22px;
+font-weight:bold;
+color:#ff6a00;
+margin-top:6px;
+}
+
+.promoTiempo{
+font-size:12px;
+color:#777;
+}
+.tituloNegocioMes{
+font-size:22px;
+margin:18px 0 10px;
+text-align:center;
+}
+
+.negocioMesCard{
+display:flex;
+align-items:center;
+gap:16px;
+background:linear-gradient(135deg,#f6d365,#fda085);
+padding:12px;
+border-radius:16px;
+margin:12px 0;
+}
+
+.negocioMesImagen{
+width:100%;
+height:140px;
+overflow:hidden;
+border-radius:14px;
+}
+
+.negocioMesImagen img{
+width:100%;
+height:120%;
+object-fit:cover;
+}
+
+.negocioMesInfo h4{
+margin:0;
+font-size:18px;
+}
+
+.negocioMesInfo p{
+margin:4px 0;
+font-size:14px;
+color:#333;
+}
+
+.btnVerNegocio{
+background:#ff7a00;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:12px;
+font-weight:600;
+}
+.tituloNuevo{
+margin-top:15px;
+margin-bottom:10px;
+font-size:20px;
+}
+
+.nuevoPueblo{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.nuevoCard{
+display:flex;
+align-items:center;
+background:white;
+padding:10px;
+border-radius:12px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.nuevoIcono{
+font-size:24px;
+margin-right:10px;
+}
+
+.nuevoInfo b{
+font-size:14px;
+}
+
+.nuevoInfo p{
+margin:0;
+font-size:13px;
+color:#666;
+}
+/* estilos botones rápidos */
+.botonesRapidos{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding:8px 6px;
+  margin:12px 0;
+}
+
+.botonRapido{
+  background:#ffffff;
+  border-radius:14px;
+  padding:8px 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.06);
+  font-size:14px;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+.botonRapido span{ font-size:18px; }
+.botonRapido p{ margin:0; font-size:13px; font-weight:600; }
+</style>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOAWOLaj57lHUcYffLMnHMuDLOV0WiUAc"></script>
+</head>
+
+<body>
+
+<!-- ================= INICIO ================= -->
+<div class="container" id="inicio">
+<h1>La App del Pueblo</h1>
+</div>
+
+<!-- ================= MENU USUARIO ================= -->
+<div class="container hidden" id="menuUsuario">
+<div class="headerInicio">
+
+<h1 id="saludoUsuario">Hola 👋</h1>
+<p>¿Qué necesitas hoy?</p>
+
+</div>
+
+<div class="buscadorModerno">
+
+<span>🔍</span>
+
+<input 
+id="buscadorGlobal"
+placeholder="Buscar negocio o servicio..."
+onkeyup="buscarGlobal()"
+>
+</div>
+<div class="botonesRapidos">
+
+<div class="botonRapido">
+<span>✔</span>
+<p>Abiertos</p>
+</div>
+
+<div class="botonRapido">
+<span>🚕</span>
+<p>Taxi</p>
+</div>
+
+<div class="botonRapido">
+<span>🚨</span>
+<p>Alertas</p>
+</div>
+
+<div class="botonRapido">
+<span>⭐</span>
+<p>Favoritos</p>
+</div>
+
+</div>
+<h3 class="tituloPromociones">⚡ Promociones del día</h3>
+
+<div id="ofertasHoy" class="destacadosScroll"></div>
+<h2 class="seccion-titulo">🏆 Negocio del Mes</h2>
+
+<div class="negocioMesCard">
+
+<div class="negocioMesImagen">
+<img src="https://images.unsplash.com/photo-1552332386-f8dd00dc2f85">
+</div>
+
+<div class="negocioMesInfo">
+<h4>🌮 Tacos Checo's</h4>
+<p>⭐ 4.9</p>
+<p>📍 Centro · 🟢 Abierto</p>
+
+<button class="btnVerNegocio">Ver negocio</button>
+</div>
+
+</div>
+<h3 class="tituloDestacados">🔥 Destacados</h3>
+
+<div id="negociosDestacados" class="destacadosScroll"></div>
+<h3 class="tituloNuevo">✨ Lo nuevo en el pueblo</h3>
+
+<div class="nuevoPueblo">
+
+<div class="nuevoCard">
+<div class="nuevoIcono">🏪</div>
+<div class="nuevoInfo">
+<b>Nuevo negocio</b>
+<p>Panadería Lupita</p>
+</div>
+</div>
+
+<div class="nuevoCard">
+<div class="nuevoIcono">💼</div>
+<div class="nuevoInfo">
+<b>Nuevo empleo</b>
+<p>Se busca mesero</p>
+</div>
+</div>
+
+<div class="nuevoCard">
+<div class="nuevoIcono">🛒</div>
+<div class="nuevoInfo">
+<b>Nueva venta</b>
+<p>iPhone 13 $8500</p>
+</div>
+</div>
+
+</div>
+<div class="categoriasGrid">
+
+<div class="categoriaCard" onclick="verCategoria('Comida')">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoComida">🍔</div>
+Comida
+</div>
+<div class="flecha">›</div>
+</div>
+
+<div class="categoriaCard" onclick="verCategoria('Taxi')">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoTaxi">🚕</div>
+Taxi
+</div>
+<div class="flecha">›</div>
+</div>
+
+<div class="categoriaCard" onclick="verCategoria('Consume Local')">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoConsume">🛍</div>
+Consume Local
+</div>
+<div class="flecha">›</div>
+</div>
+
+<div class="categoriaCard" onclick="verCategoria('Servicios')">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoServicios">🔧</div>
+Servicios
+</div>
+<div class="flecha">›</div>
+</div>
+
+<div class="categoriaCard" onclick="verCategoria('Ofertas laborales')">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoOfertas">💼</div>
+Ofertas laborales
+</div>
+<div class="flecha">›</div>
+</div>
+
+<div class="categoriaCard" onclick="verCategoria('Ventas')">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoVentas">🏷</div>
+Ventas
+</div>
+<div class="flecha">›</div>
+</div>
+
+<div class="categoriaCard" onclick="verCategoria('Numeros del Pueblo')">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoNumeros">📞</div>
+Números del Pueblo
+</div>
+<div class="flecha">›</div>
+</div>
+
+<div class="categoriaCard" onclick="registrarMiNegocio()">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoRegistro">➕</div>
+Registrar mi negocio
+</div>
+<div class="flecha">›</div>
+</div>
+
+<div class="categoriaCard" onclick="mostrarFavoritos()">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoFavoritos">❤️</div>
+Mis favoritos
+</div>
+<div class="flecha">›</div>
+</div>
+
+<div class="categoriaCard" onclick="mostrarMisPublicaciones()">
+<div class="categoriaLeft">
+<div class="iconoCategoria iconoPublicaciones">📦</div>
+Mis publicaciones
+</div>
+<div class="flecha">›</div>
+</div>
+
+</div>
+<button onclick="volverInicio()" class="back-btn">Volver</button>
+</div>
+
+<!-- ================= LISTA USUARIO ================= -->
+<div class="container hidden" id="listaUsuario">
+<h2 id="tituloCategoria"></h2>
+
+<div id="subcategoriasComida" class="hidden"></div>
+<div id="subcategoriasConsumeLocal" class="hidden"></div>
+<input id="buscador" class="hidden"
+ placeholder="🔍 Buscar proveedor..."
+ onkeyup="filtrarProveedores()">
+
+<div id="contenedorUsuario"></div>
+
+<button onclick="volverMenuUsuario()" class="back-btn">Volver</button>
+</div>
+
+<!-- ================= FAVORITOS ================= -->
+<div class="container hidden" id="vistaFavoritos">
+<h2>❤️ Mis Favoritos</h2>
+
+<div id="contenedorFavoritos"></div>
+
+<button onclick="volverMenuUsuario()" class="back-btn">Volver</button>
+</div>
+<div class="container hidden" id="vistaMisPublicaciones">
+
+<h2>📦 Mis publicaciones</h2>
+
+<div id="contenedorMisPublicaciones"></div>
+
+<button onclick="volverMenuUsuario()" class="back-btn">Volver</button>
+
+</div>
+<!-- ================= MENU ADMIN ================= -->
+<div class="container hidden" id="menuAdmin">
+<h2>Administrador</h2>
+<div class="statsAdmin">
+
+<div class="cardStat">
+<div class="num" id="statProvActivos">0</div>
+<div class="txt">Proveedores activos</div>
+</div>
+
+<div class="cardStat">
+<div class="num" id="statProvPend">0</div>
+<div class="txt">Proveedores inactivos</div>
+</div>
+
+<div class="cardStat">
+<div class="num" id="statVentas">0</div>
+<div class="txt">Ventas activas</div>
+</div>
+
+<div class="cardStat">
+<div class="num" id="statVacantes">0</div>
+<div class="txt">Vacantes activas</div>
+</div>
+
+<div class="cardStat">
+<div class="num" id="statTotal">0</div>
+<div class="txt">Publicaciones totales</div>
+</div>
+
+</div>
+<button onclick="mostrarAgregarProveedor()">➕ Agregar nuevo proveedor</button>
+<button onclick="verNegociosPendientes()" style="position:relative">
+🕒 Provedores pendientes de aprobación<span id="badgePendientes"
+style="
+position:absolute;
+top:-6px;
+right:-6px;
+background:red;
+color:white;
+font-size:12px;
+padding:2px 6px;
+border-radius:10px;
+display:none;
+">0</span>
+</button>
+<button onclick="mostrarListaAdmin()">📋 Todos mis proveedores</button>
+<button onclick="verOpinionesPendientes()" style="position:relative">
+⭐ Revisar opiniones
+<span id="badgeOpiniones"
+style="
+position:absolute;
+top:-6px;
+right:-6px;
+background:red;
+color:white;
+font-size:12px;
+padding:2px 6px;
+border-radius:10px;
+display:none;
+">0</span>
+</button>
+<button onclick="volverInicio()" class="back-btn">Volver</button>
+</div>
+
+<!-- ================= AGREGAR PROVEEDOR ================= -->
+<div class="container hidden" id="agregarProveedor">
+
+<h2>Agregar Proveedor</h2>
+
+<select id="categoriaSeleccion" onchange="mostrarFormularioCategoria()">
+<option value="">Selecciona categoría</option>
+<option value="Comida">🍔 Comida</option>
+<option value="Taxi">🚕 Taxi</option>
+<option value="Servicios">🛠️ Servicios</option>
+<option value="Consume Local">🛒 Consume Local</option>
+<option value="Ofertas laborales">💼 Ofertas laborales</option>
+<option value="Ventas">🛒 Ventas</option>
+<option value="Numeros del Pueblo">📞 Números del Pueblo</option>
+<option value="Promocion">⚡ Promoción del día</option>
+</select>
+
+<!-- ========= COMIDA ========= -->
+<div id="formularioComida" class="hidden">
+<input id="nombreComida" placeholder="Nombre del negocio">
+<input id="direccionComida" placeholder="Dirección">
+<button type="button" onclick="abrirMapaSeleccion()">📍 Seleccionar ubicación exacta</button>
+
+<div id="mapaSeleccion" style="height:300px;margin-top:10px;border-radius:12px;"></div>
+<input id="telefonoComida" placeholder="Teléfono">
+<label>📝 Descripción del negocio</label>
+<textarea id="descripcionComida"
+placeholder="Ej: tacos de adobada, bistec, aguas frescas..."
+rows="3"></textarea>
+<label>🚚 Servicio a domicilio</label>
+<select id="domicilioComida">
+<option value="Sí">Sí</option>
+<option value="No">No</option>
+</select>
+<select id="tipoComida">
+<option value="">Selecciona subcategoría</option>
+<option value="Tacos">🌮 Tacos</option>
+<option value="Pizza">🍕 Pizza</option>
+<option value="Lonchería">🥖 Lonchería</option>
+<option value="Tortas">🥪 Tortas</option>
+<option value="Hamburguesas & Alitas">🍔 Hamburguesas & Alitas</option>
+<option value="Pollo">🍗 Pollo</option>
+<option value="Birria">🐐 Birria</option>
+<option value="Cafetería & Repostería">☕ Cafetería & Repostería</option>
+<option value="Restaurantes">🍽️ Restaurantes</option>
+<option value="Comida China">🥡 Comida China</option>
+<option value="Botanas">🍿 Botanas</option>
+<option value="Cena Dorada">🌙 Cena Dorada</option>
+</select>
+
+<label>Hora apertura</label>
+<input type="time" id="horaInicioComida">
+
+<label>Hora cierre</label>
+<input type="time" id="horaFinComida">
+
+<label>Días abiertos</label>
+<div id="diasComida">
+<label><input type="checkbox" value="1"> Lunes</label><br>
+<label><input type="checkbox" value="2"> Martes</label><br>
+<label><input type="checkbox" value="3"> Miércoles</label><br>
+<label><input type="checkbox" value="4"> Jueves</label><br>
+<label><input type="checkbox" value="5"> Viernes</label><br>
+<label><input type="checkbox" value="6"> Sábado</label><br>
+<label><input type="checkbox" value="0"> Domingo</label>
+</div>
+
+<input type="file" id="imagenComida">
+<button onclick="guardarProveedor('Comida')">Guardar proveedor</button>
+</div>
+
+<!-- ========= TAXI ========= -->
+<div id="formularioTaxi" class="hidden">
+
+<input id="nombreTaxi" placeholder="Nombre del chófer">
+
+<input id="telefonoTaxi" placeholder="Teléfono">
+
+<input id="numeroTaxi" placeholder="Número de taxi">
+
+<input id="baseTaxi" placeholder="¿Cuál es tu base o sitio?">
+
+<input id="descripcionTaxi" placeholder="Descripción (ej: viajes locales y foráneos)">
+
+<label>Hora inicio</label>
+<input type="time" id="horaInicioTaxi">
+
+<label>Hora cierre</label>
+<input type="time" id="horaFinTaxi">
+
+<label>Días disponibles</label>
+<div id="diasTaxi">
+<label><input type="checkbox" value="1"> Lunes</label><br>
+<label><input type="checkbox" value="2"> Martes</label><br>
+<label><input type="checkbox" value="3"> Miércoles</label><br>
+<label><input type="checkbox" value="4"> Jueves</label><br>
+<label><input type="checkbox" value="5"> Viernes</label><br>
+<label><input type="checkbox" value="6"> Sábado</label><br>
+<label><input type="checkbox" value="0"> Domingo</label>
+</div>
+
+<input type="file" id="imagenTaxi">
+
+<button type="button" onclick="guardarProveedor('Taxi')">
+Guardar proveedor
+</button>
+
+</div>
+
+<!-- ========= SERVICIOS ========= -->
+<div id="formularioServicios" class="hidden">
+
+<input id="nombreServicio" placeholder="Tu nombre o del negocio">
+
+<input id="tipoServicio" placeholder="¿Qué servicio ofreces?">
+
+<input id="ubicacionServicio" placeholder="Ubicación">
+
+<input id="telefonoServicio" placeholder="Teléfono">
+
+<input id="descripcionServicio"
+placeholder="Descripción del servicio (ej: fabricación de camas y closets)">
+
+<input type="file" id="imagenServicio">
+
+<button type="button" onclick="guardarProveedor('Servicios')">
+Guardar proveedor
+</button>
+
+</div>
+
+<!-- ========= MANDADOS ========= -->
+<div id="formularioConsumeLocal" class="hidden">
+<h3>Agregar comercio</h3>
+
+<input id="nombreComercio" placeholder="Nombre del negocio">
+
+<select id="subcategoriaConsumeLocal">
+<option value="">Selecciona categoría</option>
+<option>Comercio General</option>
+<option>Salud & Belleza</option>
+<option>Hospedaje & Turismo</option>
+<option>Entretenimiento & Eventos</option>
+<option>Moda & Ropa</option>
+<option>Autos & Motos</option>
+<option>Hogar & Construcción</option>
+<option>Escuela & Oficina</option>
+<option>Tecnología & Comunicaciones</option>
+<option>Otros & Especiales</option>
+</select>
+
+<input id="direccionComercio" placeholder="Dirección">
+
+<input id="telefonoComercio" placeholder="Teléfono">
+
+<label>📝 Descripción</label>
+<textarea id="descripcionComercio"
+placeholder="Ej: venta de carne fresca, medicamentos genéricos..."
+rows="3"></textarea>
+
+<label>🚚 Servicio a domicilio</label>
+<select id="domicilioComercio">
+<option value="Sí">Sí</option>
+<option value="No">No</option>
+</select>
+
+<label>Hora apertura</label>
+<input type="time" id="horaInicioComercio">
+
+<label>Hora cierre</label>
+<input type="time" id="horaFinComercio">
+
+<label>Días que abre</label>
+<div id="diasComercio">
+<label><input type="checkbox" value="1"> Lunes</label><br>
+<label><input type="checkbox" value="2"> Martes</label><br>
+<label><input type="checkbox" value="3"> Miércoles</label><br>
+<label><input type="checkbox" value="4"> Jueves</label><br>
+<label><input type="checkbox" value="5"> Viernes</label><br>
+<label><input type="checkbox" value="6"> Sábado</label><br>
+<label><input type="checkbox" value="0"> Domingo</label>
+</div>
+
+<input type="file" id="imagenComercio">
+
+<button onclick="guardarProveedor('Consume Local')">
+Guardar comercio
+</button>
+</div>
+
+<!-- ========= OFERTAS ========= -->
+<div id="formularioOfertaslaborales" class="hidden">
+
+<input id="nombreOferta" placeholder="Nombre de tu empresa o negocio">
+
+<input id="puestoOferta" placeholder="Puesto que ofreces">
+
+<input id="sueldoOferta" placeholder="Sueldo">
+
+<select id="horarioOferta">
+<option value="">Selecciona turno</option>
+<option>Matutino</option>
+<option>Vespertino</option>
+<option>Diurno</option>
+<option>Disponibilidad de horario</option>
+</select>
+
+<textarea id="requisitosOferta"
+placeholder="Requisitos del puesto"></textarea>
+
+<input id="telefonoOferta" placeholder="Teléfono">
+
+<input type="file" id="imagenOferta">
+
+<button onclick="guardarProveedor('Ofertas laborales')">
+Guardar oferta
+</button>
+
+</div>
+
+<!-- ========= VENTAS ========= -->
+<div id="formularioVentas" class="hidden">
+
+<input id="nombreVenta" placeholder="¿Qué vendes?">
+
+<textarea id="descripcionVenta"
+placeholder="Describe lo que vendes"></textarea>
+
+<input id="precioVenta" placeholder="Precio">
+
+<input id="telefonoVenta" placeholder="Teléfono">
+
+<input type="file" id="imagenVenta">
+
+<button onclick="guardarProveedor('Ventas')">
+Guardar venta
+</button>
+
+</div>
+
+<!-- ========= NUMEROS DEL PUEBLO ========= -->
+<div id="formularioNumerosdelPueblo" class="hidden">
+
+<h2>Número del Pueblo</h2>
+
+<input id="nombreNumero" placeholder="Nombre (ej: Bomberos)">
+<input id="telefonoNumero" placeholder="Teléfono">
+<input id="direccionNumero" placeholder="Dirección (opcional)">
+
+<textarea id="descripcionNumero"
+placeholder="Ej: atención 24 horas"
+rows="3"></textarea>
+
+<input type="file" id="imagenNumero">
+
+<button onclick="guardarProveedor('Numeros del Pueblo')">
+Guardar número
+</button>
+
+</div>
+<div id="formularioPromocion" class="hidden">
+
+<h2>Promoción del día</h2>
+
+<input id="nombrePromo" placeholder="Nombre del negocio">
+
+<textarea id="descripcionPromo"
+placeholder="Ej: 3 tacos por $25 solo hoy"></textarea>
+
+<input id="precioPromoVenta" placeholder="Precio de promoción (opcional)">
+
+<input id="telefonoPromo" placeholder="Teléfono">
+
+<input type="file" id="imagenPromo">
+
+<button onclick="guardarProveedor('Promocion')">
+Guardar promoción
+</button>
+</div>
+<button onclick="volverFormularioProveedor()" class="back-btn">Volver</button>
+</div>
+
+<!-- ================= LISTA ADMIN ================= -->
+<div class="container hidden" id="listaAdmin">
+<h2>📋 Mis proveedores</h2>
+<input 
+placeholder="🔍 Buscar proveedor..."
+onkeyup="filtrarAdmin(this.value)"
+style="margin-bottom:15px;font-size:16px;">
+<div id="contenedorAdmin"></div>
+<button onclick="volverMenuAdmin()" class="back-btn">Volver</button>
+</div>
+
+<!-- ================= CATEGORIAS ADMIN ================= -->
+<div class="container hidden" id="categoriasAdmin">
+<h2>Por categoría</h2>
+<button onclick="verCategoriaAdmin('Comida')">🍔 Comida</button>
+<button onclick="verCategoriaAdmin('Taxi')">🚕 Taxi</button>
+<button onclick="verCategoriaAdmin('Servicios')">🛠️ Servicios</button>
+<button onclick="verCategoriaAdmin('Consume Local')">🛒 Consume Local</button>
+<button onclick="verCategoriaAdmin('Ventas')">🛒 Ventas</button>
+<button onclick="volverMenuAdmin()" class="back-btn">Volver</button>
+</div>
+<!-- ================= PERFIL NEGOCIO ================= -->
+<div class="container hidden" id="vistaNegocio">
+
+<h2 id="tituloNegocio"></h2>
+
+<div id="contenidoNegocio"></div>
+
+<button onclick="volverMenuUsuario()" class="back-btn">Volver</button>
+
+</div>
+<div id="notificacion"></div>
+
+<script>
+let usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
+let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+// CREAR ADMIN SI NO EXISTE
+if(!usuarios.find(u => u.telefono === "admin")){
+usuarios.push({
+id: 1,
+nombre: "Administrador",
+telefono: "admin",
+pass: "1234",
+rol: "admin"
+});
+
+localStorage.setItem("usuarios", JSON.stringify(usuarios));
+}
+function actualizarSaludo(){
+
+if(usuarioActual && usuarioActual.nombre){
+document.getElementById("saludoUsuario").innerText =
+"Hola " + usuarioActual.nombre + " 👋";
+}
+
+}
+document.addEventListener("DOMContentLoaded", function(){
+
+verificarSesion();
+actualizarSaludo();
+cargarDestacados();
+cargarOfertasHoy();
+mostrarMenuUsuario();
+
+});
+let proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+let latSeleccion = null;
+let lngSeleccion = null;
+let marcadorMapa = null;
+
+function cargarDestacados(){
+
+let contenedor = document.getElementById("negociosDestacados");
+
+if(!contenedor) return;
+
+contenedor.innerHTML = "";
+
+// solo negocios aprobados
+let lista = proveedores.filter(p => p.estadoPublicacion === "aprobado");
+
+// ordenar por rating
+lista.sort((a,b)=>{
+let rA = datosRating(a.id).prom || 0;
+let rB = datosRating(b.id).prom || 0;
+return rB - rA;
+});
+
+// mostrar máximo 5
+lista.slice(0,5).forEach(p=>{
+
+let rating = datosRating(p.id);
+let abierto = estaAbierto(p);
+
+contenedor.innerHTML += `
+<div class="tarjetaNegocio" onclick="abrirNegocio(${p.id})">
+
+<img src="${p.imagen || 'https://via.placeholder.com/150'}">
+
+<h4>${p.nombre}</h4>
+
+<p style="font-size:13px;color:#444">
+
+${rating.total>0 ? "⭐ "+rating.prom : ""}
+
+${abierto ? " • 🟢 Abierto" : ""}
+
+</p>
+
+</div>
+`;
+
+});
+
+}
+let opiniones = JSON.parse(localStorage.getItem("opiniones"))||[];
+let proveedorOpinion=null;
+let estrellasSeleccionadas=0;
+let misPublicaciones = JSON.parse(localStorage.getItem("misPublicaciones")) || [];
+let indiceEditando = null;
+// asegurar que todos los proveedores tengan ID
+let actualizado = false;
+
+proveedores.forEach(p=>{
+if(!p.id){
+p.id = Date.now() + Math.floor(Math.random()*10000);
+actualizado = true;
+}
+});
+
+if(actualizado){
+localStorage.setItem("proveedores", JSON.stringify(proveedores));
+}
+let proveedoresFiltrados = [];
+let proveedoresBase = [];
+let categoriaActual = "";
+let subcategoriaActual = "";
+
+/* ===== SUBCATEGORIAS CONSUME LOCAL ===== */
+const subcategoriasConsumeLocal = [
+{emoji:"🛍️", nombre:"Comercio General"},
+{emoji:"💊", nombre:"Salud & Belleza"},
+{emoji:"🏨", nombre:"Hospedaje & Turismo"},
+{emoji:"🎉", nombre:"Entretenimiento & Eventos"},
+{emoji:"👕", nombre:"Moda & Ropa"},
+{emoji:"🚗", nombre:"Autos & Motos"},
+{emoji:"🏠", nombre:"Hogar & Construcción"},
+{emoji:"📚", nombre:"Escuela & Oficina"},
+{emoji:"📱", nombre:"Tecnología & Comunicaciones"},
+{emoji:"🌱", nombre:"Otros & Especiales"}
+];
+
+/* ===== SUBCATEGORIAS COMIDA ===== */
+const listaSubcategoriasComida = [
+{emoji:"🌮", nombre:"Tacos"},
+{emoji:"🍕", nombre:"Pizza"},
+{emoji:"🥖", nombre:"Lonchería"},
+{emoji:"🥪", nombre:"Tortas"},
+{emoji:"🍔", nombre:"Hamburguesas & Alitas"},
+{emoji:"🍗", nombre:"Pollo"},
+{emoji:"🐐", nombre:"Birria"},
+{emoji:"☕", nombre:"Cafetería & Repostería"},
+{emoji:"🍽️", nombre:"Restaurantes"},
+{emoji:"🥡", nombre:"Comida China"},
+{emoji:"🍿", nombre:"Botanas"},
+{emoji:"🌙", nombre:"Cena Dorada"}
+];
+
+const subcategoriasComidaDiv =
+document.getElementById("subcategoriasComida");
+const subcategoriasConsumeLocalDiv =
+document.getElementById("subcategoriasConsumeLocal");
+
+const buscador = document.getElementById("buscador");
+const notificacion = document.getElementById("notificacion");
+const tituloCategoria = document.getElementById("tituloCategoria");
+
+/* ================= NAV ================= */
+function ocultarTodo(){
+
+document.querySelectorAll(".container")
+.forEach(c=>c.classList.add("hidden"));
+
+subcategoriasComidaDiv.classList.add("hidden");
+subcategoriasComidaDiv.innerHTML="";
+
+buscador.classList.add("hidden");
+const btnFlotante = document.getElementById("btnFlotanteVender");
+if(btnFlotante) btnFlotante.style.display="none" ;
+const btnVacante = document.getElementById("btnFlotanteVacante");
+if(btnVacante) btnVacante.style.display="none";
+}
+function mostrarUsuario(){ocultarTodo();menuUsuario.classList.remove("hidden")}
+let modoRegistroUsuario = false;
+
+function registrarMiNegocio(){
+if(!usuarioActual){
+mostrarNotificacion("Debes iniciar sesión para registrar un negocio","#dc3545");
+cargarPerfil();
+return;
+}
+modoRegistroUsuario = true;
+
+ocultarTodo();
+agregarProveedor.classList.remove("hidden");
+categoriaSeleccion.value="";
+ocultarFormularios();
+
+// ocultar categorías solo usuario
+Array.from(categoriaSeleccion.options).forEach(op=>{
+if(
+op.value==="Ventas" ||
+op.value==="Ofertas laborales" ||
+op.value==="Numeros del Pueblo"
+){
+op.style.display="none";
+}else{
+op.style.display="block";
+}
+});
+
+}
+
+function mostrarAdmin(){ocultarTodo();menuAdmin.classList.remove("hidden");actualizarContador()
+actualizarStatsAdmin();
+actualizarBadgeOpiniones();
+}
+function volverInicio(){
+
+// ocultar pantallas
+document.getElementById("listaUsuario").classList.add("hidden");
+document.getElementById("pantallaPerfil")?.classList.add("hidden");
+
+// mostrar menú principal
+document.getElementById("menuUsuario").classList.remove("hidden");
+
+// subir al inicio de la pantalla
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+function volverMenuUsuario(){ocultarTodo();menuUsuario.classList.remove("hidden")}
+function volverMenuAdmin(){ocultarTodo();menuAdmin.classList.remove("hidden");actualizarContador()}
+function volverFormularioProveedor(){
+
+if(modoRegistroUsuario){
+volverMenuUsuario();
+}else{
+volverMenuAdmin();
+}
+
+}
+function abrirFormularioVentaUsuario(){
+
+try{
+
+ocultarTodo();
+// LIMPIAR FORMULARIO VENTA
+document.getElementById("uNombreVenta").value="";
+document.getElementById("uDescripcionVenta").value="";
+document.getElementById("uPrecioVenta").value="";
+document.getElementById("uTelefonoVenta").value="";
+document.getElementById("uImagenVenta").value="";
+const v = document.getElementById("ventaUsuario");
+
+if(!v){
+alert("No existe ventaUsuario");
+return;
+}
+
+v.classList.remove("hidden");
+window.scrollTo(0,0);
+
+}catch(e){
+
+alert("Error JS: "+e.message);
+
+}
+
+}
+function actualizarContador(){
+document.getElementById("contadorProveedores").innerText = proveedores.length;
+}
+
+/* ================= ADMIN ================= */
+function mostrarAgregarProveedor(){
+
+modoRegistroUsuario = false;
+
+ocultarTodo();
+agregarProveedor.classList.remove("hidden");
+categoriaSeleccion.value="";
+ocultarFormularios();
+
+// mostrar TODAS las categorías para admin
+Array.from(categoriaSeleccion.options).forEach(op=>{
+op.style.display="block";
+});
+
+}
+function ocultarFormularios(){
+[
+"formularioComida",
+"formularioTaxi",
+"formularioServicios",
+"formularioConsumeLocal",
+"formularioOfertaslaborales",
+"formularioVentas", 
+"formularioNumerosdelPueblo"
+].forEach(id=>{
+const el = document.getElementById(id);
+if(el) el.classList.add("hidden");
+});
+}
+
+function mostrarFormularioCategoria(){
+ocultarFormularios();
+const id="formulario"+categoriaSeleccion.value.replace(/ /g,"");
+document.getElementById(id)?.classList.remove("hidden");
+}
+
+function mostrarListaAdmin(){
+ocultarTodo();
+listaAdmin.classList.remove("hidden");
+cargarListaAdmin();
+}
+
+function cargarListaAdmin(){
+dibujarAdmin(proveedores);
+}
+function eliminarProveedor(i){
+
+if(!confirm("¿Seguro que quieres eliminar este proveedor?")){
+return;
+}
+
+proveedores.splice(i,1);
+
+// guardar actualizado
+localStorage.setItem("proveedores",JSON.stringify(proveedores));
+
+// 🔥 RECARGAR ARRAY GLOBAL DESDE STORAGE
+proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+mostrarNotificacion("Proveedor eliminado","#dc3545");
+
+// refrescar lista
+cargarListaAdmin();
+
+// 🔥 refrescar contadores INMEDIATO
+actualizarStatsAdmin();
+
+}
+
+function mostrarCategoriasAdmin(){
+ocultarTodo();
+categoriasAdmin.classList.remove("hidden");
+}
+
+function verCategoriaAdmin(cat){
+ocultarTodo();
+listaAdmin.classList.remove("hidden");
+contenedorAdmin.innerHTML="";
+proveedores.filter(p=>p.categoria===cat).forEach(p=>{
+let c=document.createElement("div");
+c.className="card";
+c.innerHTML=`<h3>${p.nombre}</h3><p>${p.telefono||""}</p>`;
+contenedorAdmin.appendChild(c);
+});
+}
+function editarProveedorAdmin(i){
+
+indiceEditando = i;
+const p = proveedores[i];
+indiceEditando = i;
+window.editandoId = p.id;
+
+mostrarNotificacion("✏️ Editando proveedor…","#0d6efd");
+
+mostrarAgregarProveedor();
+
+categoriaSeleccion.value = p.categoria;
+mostrarFormularioCategoria();
+
+setTimeout(()=>{
+
+if(p.categoria==="Comida"){
+nombreComida.value=p.nombre||"";
+direccionComida.value=p.direccion||"";
+telefonoComida.value=p.telefono||"";
+descripcionComida.value=p.descripcion||"";
+horaInicioComida.value=p.horaInicio||"";
+horaFinComida.value=p.horaFin||"";
+tipoComida.value=p.subcategoria||"";
+}
+
+if(p.categoria==="Taxi"){
+nombreTaxi.value=p.nombre||"";
+telefonoTaxi.value=p.telefono||"";
+numeroTaxi.value=p.numero||"";
+baseTaxi.value=p.base||"";
+descripcionTaxi.value=p.descripcion||"";
+horaInicioTaxi.value=p.horaInicio||"";
+horaFinTaxi.value=p.horaFin||"";
+}
+
+if(p.categoria==="Servicios"){
+nombreServicio.value=p.nombre||"";
+telefonoServicio.value=p.telefono||"";
+ubicacionServicio.value=p.ubicacion||"";
+descripcionServicio.value=p.descripcion||"";
+}
+
+if(p.categoria==="Consume Local"){
+nombreComercio.value=p.nombre||"";
+direccionComercio.value=p.direccion||"";
+telefonoComercio.value=p.telefono||"";
+descripcionComercio.value=p.descripcion||"";
+horaInicioComercio.value=p.horaInicio||"";
+horaFinComercio.value=p.horaFin||"";
+subcategoriaConsumeLocal.value=p.subcategoria||"";
+}
+
+if(p.categoria==="Ventas"){
+nombreVenta.value=p.nombre||"";
+telefonoVenta.value=p.telefono||"";
+precioVenta.value=p.precio||"";
+}
+
+if(p.categoria==="Ofertas laborales"){
+nombreOferta.value=p.nombre||"";
+ubicacionOferta.value=p.ubicacion||"";
+telefonoOferta.value=p.telefono||"";
+puestoOferta.value=p.puesto||"";
+sueldoOferta.value=p.sueldo||"";
+horarioOferta.value=p.horario||"";
+}
+
+if(p.categoria==="Numeros del Pueblo"){
+nombreNumero.value=p.nombre||"";
+telefonoNumero.value=p.telefono||"";
+direccionNumero.value=p.direccion||"";
+descripcionNumero.value=p.descripcion||"";
+}
+
+},120);
+
+}
+
+/* ================= USUARIO ================= */
+function verCategoria(cat){
+
+categoriaActual = cat;
+ocultarTodo();
+listaUsuario.classList.remove("hidden");
+tituloCategoria.innerText = cat;
+// controlar botón flotante vender
+const btnFlotante = document.getElementById("btnFlotanteVender");
+if(btnFlotante){
+btnFlotante.style.display = (cat==="Ventas") ? "block" : "none";
+}
+const btnVac = document.getElementById("btnFlotanteVacante");
+if(btnVac){
+btnVac.style.display = (cat==="Ofertas laborales") ? "block" : "none";
+}
+contenedorUsuario.innerHTML="";
+
+buscador.classList.add("hidden");
+subcategoriasComidaDiv.classList.add("hidden");
+subcategoriasConsumeLocalDiv.classList.add("hidden");
+
+if(cat==="Comida"){
+
+subcategoriaActual="";
+contenedorUsuario.innerHTML="";
+mostrarSubcategoriasComida();
+
+}
+
+else if(cat==="Consume Local"){
+
+subcategoriaActual="";
+contenedorUsuario.innerHTML="";
+mostrarSubcategoriasConsumeLocal();
+
+}
+
+else{
+
+proveedoresBase = proveedores.filter(p => {
+
+if(p.categoria !== cat) return false;
+if(p.estadoPublicacion !== "aprobado") return false;
+
+// solo aplicar estado para ventas y vacantes
+if(p.categoria === "Ventas" && p.estado === "Vendido") return false;
+if(p.categoria === "Ofertas laborales" && p.estado === "Cubierta") return false;
+
+return true;
+
+});
+
+proveedoresFiltrados = [...proveedoresBase];
+
+if(cat === "Servicios"){
+buscador.placeholder = "🔍 Buscar servicio (ej: carpintero)";
+buscador.classList.remove("hidden");
+}else{
+buscador.classList.add("hidden");
+}
+
+mostrarProveedoresUsuario();
+}
+}
+function mostrarSubcategoriasComida(){
+
+subcategoriasComidaDiv.innerHTML="";
+subcategoriasComidaDiv.classList.remove("hidden");
+
+listaSubcategoriasComida.forEach(sc=>{
+let b=document.createElement("button");
+b.className="subcat-btn";
+b.innerHTML=`
+<div style="font-size:28px">${sc.emoji}</div>
+<span>${sc.nombre}</span>
+`;
+b.onclick=()=>entrarSubcategoriaComida(sc.nombre);
+subcategoriasComidaDiv.appendChild(b);
+});
+}
+
+function mostrarSubcategoriasConsumeLocal(){
+
+subcategoriasConsumeLocalDiv.innerHTML="";
+subcategoriasConsumeLocalDiv.classList.remove("hidden");
+
+subcategoriasConsumeLocal.forEach(sc=>{
+
+let b = document.createElement("button");
+b.className = "subcat-btn";
+
+b.innerHTML = `
+<div style="font-size:28px">${sc.emoji}</div>
+<span>${sc.nombre}</span>
+`;
+
+b.onclick = () => entrarSubcategoriaConsumeLocal(sc.nombre);
+
+subcategoriasConsumeLocalDiv.appendChild(b);
+
+});
+}
+
+function entrarSubcategoriaConsumeLocal(nombre){
+
+subcategoriaActual = nombre;
+
+tituloCategoria.innerText =
+"🛒 Consume Local / " + nombre;
+
+// ocultar otras subcategorías
+subcategoriasConsumeLocalDiv.innerHTML="";
+subcategoriasConsumeLocalDiv.classList.remove("hidden");
+
+proveedoresBase = proveedores.filter(p =>
+p.categoria === "Consume Local" &&
+p.estadoPublicacion === "aprobado" &&
+p.subcategoriaConsumeLocal === nombre
+);
+
+proveedoresFiltrados = [...proveedoresBase];
+
+// mostrar buscador
+buscador.classList.remove("hidden");
+
+mostrarProveedoresUsuario();
+}
+
+function entrarSubcategoriaComida(nombre){
+
+subcategoriaActual = nombre;
+
+tituloCategoria.innerText =
+"🍔 Comida / " + nombre;
+
+// volver a dibujar subcategorias pero SOLO esa
+subcategoriasComidaDiv.innerHTML="";
+subcategoriasComidaDiv.classList.remove("hidden");
+
+const sc = listaSubcategoriasComida.find(
+s => s.nombre === nombre
+);
+
+if(sc){
+let b=document.createElement("button");
+b.className="subcat-btn";
+b.innerHTML=`
+<div style="font-size:28px">${sc.emoji}</div>
+<span>${sc.nombre}</span>
+`;
+subcategoriasComidaDiv.appendChild(b);
+}
+
+buscador.classList.remove("hidden");
+
+proveedoresBase = proveedores.filter(p =>
+p.categoria==="Comida" &&
+p.estadoPublicacion==="aprobado" &&
+(p.tipoComida||"").toLowerCase()===nombre.toLowerCase()
+);
+
+proveedoresFiltrados = [...proveedoresBase];
+
+mostrarProveedoresUsuario();
+}
+
+function crearTarjetaProveedor(p){
+
+   let card = document.createElement("div");
+
+let r = datosRating(p.id);
+
+let estadoInfo = estadoNegocio(p);
+
+card.innerHTML = `
+<div style="
+background:#111;
+color:white;
+border-radius:22px;
+overflow:hidden;
+box-shadow:0 12px 35px rgba(0,0,0,.5);
+margin-bottom:22px;
+animation:subir .25s ease;
+">
+
+<div style="position:relative">
+<img src="${p.imagen}" style="
+width:100%;
+height:220px;
+object-fit:cover;
+filter:brightness(.7);
+">
+<button 
+onclick="animarFavorito(this, ${p.id})"
+style="
+position:absolute;
+top:15px;
+right:15px;
+background:rgba(0,0,0,.6);
+border:1px solid #1f6feb;
+color:${esFavorito(p.id) ? "#ff4d6d" : "#ffffff"};
+width:44px;
+height:44px;
+border-radius:50%;
+font-size:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+backdrop-filter:blur(6px);
+cursor:pointer;
+transition:.2s;
+">
+${esFavorito(p.id) ? "❤️" : "🤍"}
+</button>
+<div style="
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+padding:20px;
+background:linear-gradient(to top, rgba(0,0,0,.9), transparent);
+">
+
+
+
+<div style="display:flex;justify-content:space-between;align-items:flex-end">
+
+<div>
+
+<div style="font-size:22px;font-weight:700">
+${p.nombre || ""}
+</div>
+
+${p.categoria==="Servicios" && p.especialidad?`
+<div style="font-size:15px;color:#00d084;margin-top:4px;font-weight:500">
+🛠 ${p.especialidad}
+</div>
+`:""}
+
+</div>
+
+${r.total>0?`
+<div style="
+background:white;
+color:black;
+padding:6px 12px;
+border-radius:20px;
+font-size:14px;
+font-weight:bold;
+">
+⭐ ${r.prom}
+</div>
+`:""}
+
+</div>
+
+</div>
+</div>
+
+<div style="padding:18px">
+
+${p.categoria==="Taxi" && p.horaInicio && p.horaFin?`
+<div style="margin-top:8px">
+
+${p.horaInicio===p.horaFin ? `
+<div style="
+font-size:15px;
+font-weight:bold;
+color:#00ff88;
+">
+🟢 Disponible 24 horas
+</div>
+` : `
+<div style="
+font-size:15px;
+font-weight:bold;
+color:${estaAbierto(p) ? "#00ff88" : "#ff4d4d"};
+">
+${estaAbierto(p) ? "🟢 Disponible ahora" : "🔴 No disponible"}
+</div>
+
+<div style="
+font-size:13px;
+color:#aaa;
+margin-top:4px;
+">
+${
+estaAbierto(p)
+? `🕒 Disponible de ${formatoHora(p.horaInicio)} a ${formatoHora(p.horaFin)}`
+: `🕒 Disponible mañana a las ${formatoHora(p.horaInicio)}`
+}
+</div>
+`}
+</div>
+` :
+estadoInfo.texto ? `
+<div style="font-size:15px;font-weight:bold;color:${
+estadoInfo.tipo === "abierto" ? "#00ff88" : "#ff4d4d"
+}">
+${estadoInfo.texto}
+</div>
+` : ""
+}
+
+${p.categoria!=="Taxi" && tiempoEstimado(p)?`
+<div style="font-size:13px;color:#bbb;margin-top:3px">
+🕒 ${tiempoEstimado(p)}
+</div>
+`:""}
+
+${p.descripcion && p.categoria==="Comida"?`
+<div style="margin-top:12px">
+
+<div style="
+font-size:13px;
+color:#f5b400;
+font-weight:bold;
+margin-bottom:4px;
+">
+🍽 Especialidades
+</div>
+
+<div style="
+font-size:14px;
+color:#fff;
+line-height:1.4;
+">
+${p.descripcion}
+</div>
+
+</div>
+`:""}
+${p.descripcion && p.categoria==="Servicios"?`
+<div style="margin-top:14px">
+
+<div style="
+font-size:13px;
+color:#00ff88;
+font-weight:bold;
+margin-bottom:6px;
+">
+🛠 Especialidad
+</div>
+
+<div style="
+font-size:14px;
+color:#ddd;
+line-height:1.5;
+">
+${p.descripcion}
+</div>
+
+</div>
+`:""}
+${p.numeroTaxi?`
+<div style="margin-top:6px;font-size:13px;color:#bbb">
+🚕 Taxi número: ${p.numeroTaxi}
+</div>
+`:""}
+
+${p.base?`
+<div style="margin-top:4px;font-size:13px;color:#888">
+📍 Base/Sitio: ${p.base}
+</div>
+`:""}
+
+${p.categoria==="Comida" && p.domicilio ? `
+<div style="
+margin-top:10px;
+font-size:13px;
+padding:8px;
+border-radius:8px;
+font-weight:bold;
+background:${p.domicilio==="Sí" ? "rgba(0,255,136,.1)" : "rgba(255,77,77,.1)"};
+color:${p.domicilio==="Sí" ? "#00ff88" : "#ff4d4d"};
+">
+${p.domicilio==="Sí"
+? "🚚 Entrega a domicilio disponible"
+: "🚫 No cuenta con servicio a domicilio"}
+</div>
+` : ""}
+
+${p.categoria==="Consume Local" && p.domicilio ? `
+<div style="
+margin-top:10px;
+padding:8px 10px;
+border-radius:10px;
+font-size:13px;
+font-weight:bold;
+display:inline-block;
+background:${p.domicilio==="Sí" ? "rgba(0,255,136,.1)" : "rgba(255,77,77,.1)"};
+color:${p.domicilio==="Sí" ? "#00ff88" : "#ff4d4d"};
+">
+${p.domicilio==="Sí"
+? "🚚 Entrega a domicilio disponible"
+: "🚫 No cuenta con servicio a domicilio"}
+</div>
+` : ""}
+${p.descripcion && p.categoria==="Consume Local"?`
+<div style="margin-top:14px">
+
+<div style="
+font-size:13px;
+color:#00d084;
+font-weight:bold;
+margin-bottom:6px;
+">
+🛍 Aquí encontrarás
+</div>
+
+<div style="
+font-size:14px;
+color:#ddd;
+line-height:1.5;
+">
+${p.descripcion}
+</div>
+
+</div>
+`:""}
+${p.categoria==="Ofertas laborales" && p.puesto?`
+<div style="margin-top:8px;font-size:15px;color:#00ff88;font-weight:bold">
+👜 Solicita: ${p.puesto}
+</div>
+`:""}
+${p.categoria==="Ofertas laborales" && p.requisitos?`
+<div style="margin-top:8px;font-size:13px;color:#ccc">
+📋 Requisitos: ${p.requisitos}
+</div>
+`:""}
+
+${p.sueldo && p.categoria!=="Ofertas laborales"?`
+<div style="margin-top:4px;font-size:14px;color:#00ff88;font-weight:bold">
+💰 ${p.sueldo}
+</div>
+`:""}
+${p.direccion?`
+<div style="
+margin-top:10px;
+font-size:13px;
+color:#aaa;
+display:flex;
+align-items:center;
+gap:6px;
+">
+📍 ${p.direccion}
+</div>
+`:""}
+
+${p.ubicacion?`
+<div style="margin-top:6px;font-size:13px;color:#888">
+📍 ${p.ubicacion}
+</div>
+`:""}
+
+${p.categoria==="Ventas" ? `
+
+
+
+<!-- DESCRIPCIÓN -->
+${p.descripcion ? `
+<div style="
+margin-top:10px;
+font-size:14px;
+color:#ddd;
+line-height:1.5;
+">
+${p.descripcion}
+</div>
+` : ""}
+
+<!-- PRECIO -->
+${p.precio ? `
+<div style="
+margin-top:14px;
+font-size:22px;
+font-weight:bold;
+color:#00ff88;
+">
+$${p.precio}
+</div>
+` : ""}
+
+<!-- PUBLICADO POR -->
+${p.nombreUsuario ? `
+<div style="
+margin-top:8px;
+font-size:13px;
+color:#aaa;
+">
+👤 ${p.nombreUsuario}
+</div>
+` : ""}
+
+<!-- FECHA -->
+${p.fecha ? `
+<div style="
+font-size:12px;
+color:#777;
+margin-top:2px;
+">
+📅 ${p.fecha}
+</div>
+` : ""}
+
+` : ""}
+
+<div style="
+height:1px;
+background:rgba(255,255,255,.08);
+margin-top:16px;
+margin-bottom:10px;
+"></div>
+
+<div style="display:flex;gap:10px;margin-top:18px">
+
+${p.telefono?`
+<a href="tel:${p.telefono}" 
+style="
+flex:1;
+text-align:center;
+padding:12px;
+border-radius:12px;
+background:white;
+color:black;
+text-decoration:none;
+font-weight:bold;
+font-size:14px;
+">
+Llamar
+</a>
+`:""}
+
+${p.telefono?`
+<a href="${linkWhatsApp(p.telefono,p.nombre)}" 
+target="_blank"
+style="
+flex:1;
+text-align:center;
+padding:12px;
+border-radius:12px;
+background:#25D366;
+color:white;
+text-decoration:none;
+font-weight:bold;
+font-size:14px;
+">
+${p.categoria==="Servicios" ? "Cotizar" : "WhatsApp"}
+</a>
+`:""}
+
+${p.direccion || p.ubicacion?`
+<a href="https://www.google.com/maps?q=${p.lat},${p.lng}"
+target="_blank"
+style="
+flex:1;
+text-align:center;
+padding:12px;
+border-radius:12px;
+background:#333;
+color:white;
+text-decoration:none;
+font-weight:bold;
+font-size:14px;
+">
+Mapa
+</a>
+`:""}
+
+</div>
+
+${p.categoria!=="Ofertas laborales" && p.categoria!=="Ventas" ? `
+<button onclick="abrirOpinion(${p.id})"
+style="
+width:100%;
+margin-top:18px;
+padding:12px;
+border-radius:14px;
+background:linear-gradient(45deg,#ffc107,#ff9800);
+border:none;
+font-weight:bold;
+font-size:15px;
+color:black;
+">
+⭐ Calificar experiencia
+</button>
+` : ""}
+
+</div>
+</div>
+ `;
+
+
+   return card;
+}
+
+/* ================= MOSTRAR ================= */
+function mostrarProveedoresUsuario(){
+
+contenedorUsuario.innerHTML="";
+
+proveedoresFiltrados.forEach(p=>{
+
+let card = crearTarjetaProveedor(p);
+contenedorUsuario.appendChild(card);
+
+});
+
+}
+
+
+/* ================= UTILS ================= */
+function textoDias(dias){
+
+const mapa=["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+
+if(!Array.isArray(dias) || !dias.length) return "";
+
+return dias
+.map(d=>Number(d))
+.filter(d=>d>=0 && d<=6)
+.map(d=>mapa[d])
+.join(", ");
+
+}
+function estaAbierto(p){
+
+if(!p.horaInicio || !p.horaFin) return null;
+if(!Array.isArray(p.dias) || !p.dias.length) return false;
+
+const ahora = new Date();
+const diaHoy = ahora.getDay();   // 0 dom ... 6 sab
+
+const dias = p.dias.map(Number);
+
+if(!dias.includes(diaHoy)) return false;
+
+const [hi,mi] = p.horaInicio.split(":").map(Number);
+const [hf,mf] = p.horaFin.split(":").map(Number);
+
+const actual = ahora.getHours()*60 + ahora.getMinutes();
+const inicio = hi*60 + mi;
+const fin = hf*60 + mf;
+
+if(inicio <= fin){
+return actual >= inicio && actual <= fin;
+}
+
+return actual >= inicio || actual <= fin;
+}
+/* ================= GUARDAR ================= */
+function guardarProveedor(cat){
+
+let eraRegistroUsuario = modoRegistroUsuario;
+
+let proveedor = {
+categoria: cat
+}, archivo;
+
+if(window.editandoId){
+
+  const anterior = proveedores.find(p=>p.id===window.editandoId);
+
+  proveedor.id = anterior.id; // conservar ID
+  proveedor.estadoPublicacion = anterior.estadoPublicacion; // conservar estado
+  proveedor.usuarioId = anterior.usuarioId; // conservar dueño
+
+}else{
+
+  proveedor.id = Date.now();
+  proveedor.estadoPublicacion = modoRegistroUsuario ? "pendiente" : "aprobado";
+  proveedor.usuarioId = modoRegistroUsuario ? usuarioActual.id : "admin";
+
+}
+
+/* mantener dueño original si es edición */
+if(window.editandoId){
+
+const anterior = proveedores.find(p=>p.id===window.editandoId);
+
+proveedor.usuario = anterior?.usuario || usuarioActual;
+
+}else{
+
+proveedor.usuarioId = modoRegistroUsuario ? usuarioActual.id : "admin";
+
+}
+
+/* ===== CAPTURAR DATOS ===== */
+
+if(cat==="Comida"){
+proveedor.nombre=nombreComida.value.trim();
+proveedor.direccion=direccionComida.value.trim();
+proveedor.lat = latSeleccion;
+proveedor.lng = lngSeleccion;
+proveedor.telefono=telefonoComida.value.trim();
+proveedor.descripcion = descripcionComida.value.trim();
+proveedor.domicilio = domicilioComida.value;
+proveedor.tipoComida=tipoComida.value.trim();
+proveedor.horaInicio=horaInicioComida.value;
+proveedor.horaFin=horaFinComida.value;
+proveedor.dias=Array.from(
+document.querySelectorAll("#diasComida input:checked")
+).map(c=>parseInt(c.value))
+.filter(v=>!isNaN(v));
+archivo=imagenComida.files[0];
+}
+
+if(cat==="Taxi"){
+
+proveedor.nombre = nombreTaxi.value.trim();
+proveedor.telefono = telefonoTaxi.value.trim();
+proveedor.numeroTaxi = numeroTaxi.value.trim();
+proveedor.base = baseTaxi.value.trim();   // 👈 NUEVO CAMPO
+proveedor.descripcion = descripcionTaxi.value.trim();
+
+proveedor.horaInicio = horaInicioTaxi.value;
+proveedor.horaFin = horaFinTaxi.value;
+
+proveedor.dias = Array.from(
+document.querySelectorAll("#diasTaxi input:checked")
+).map(c => parseInt(c.value)).filter(v => !isNaN(v));
+
+archivo = imagenTaxi.files[0];
+
+}
+
+if(cat==="Servicios"){
+
+proveedor.nombre = nombreServicio.value.trim();
+proveedor.especialidad = tipoServicio.value.trim();
+proveedor.ubicacion = ubicacionServicio.value.trim();
+proveedor.telefono = telefonoServicio.value.trim();
+proveedor.descripcion = descripcionServicio.value.trim();
+
+archivo = imagenServicio.files[0];
+
+}
+
+
+if(cat==="Consume Local"){
+proveedor.nombre = nombreComercio.value.trim();
+proveedor.subcategoriaConsumeLocal = subcategoriaConsumeLocal.value;
+proveedor.direccion = direccionComercio.value.trim();
+proveedor.telefono = telefonoComercio.value.trim();
+proveedor.descripcion = descripcionComercio.value.trim();
+proveedor.domicilio = domicilioComercio.value;
+proveedor.horaInicio = horaInicioComercio.value;
+proveedor.horaFin = horaFinComercio.value;
+proveedor.dias = Array.from(
+document.querySelectorAll("#diasComercio input:checked")
+).map(c => parseInt(c.value)).filter(v=>!isNaN(v));
+archivo = imagenComercio.files[0];
+}
+
+if(cat==="Ofertas laborales"){
+
+proveedor.nombre = nombreOferta.value.trim();
+proveedor.telefono = telefonoOferta.value.trim();
+proveedor.puesto = puestoOferta.value.trim();
+proveedor.sueldo = "$"+sueldoOferta.value.trim();
+proveedor.horario = horarioOferta.value.trim();
+proveedor.requisitos = requisitosOferta.value.trim();
+
+archivo = imagenOferta.files[0];
+
+}
+if(cat==="Promocion"){
+
+proveedor.categoria="Promocion";
+proveedor.nombre = document.getElementById("nombrePromo").value.trim();
+proveedor.descripcion = document.getElementById("descripcionPromo").value.trim();
+proveedor.precioPromo = document.getElementById("precioPromo").value.trim();
+proveedor.telefono = document.getElementById("telefonoPromo").value.trim();
+
+archivo = document.getElementById("imagenPromo").files[0];
+
+}
+
+if(cat==="Ventas"){
+
+proveedor.nombre = nombreVenta.value.trim();
+proveedor.descripcion = descripcionVenta.value.trim();
+proveedor.telefono = telefonoVenta.value.trim();
+proveedor.precio = precioVenta.value.trim();
+proveedor.estado = "Disponible";
+
+archivo = imagenVenta.files[0];
+
+}
+
+if(cat==="Numeros del Pueblo"){
+proveedor.nombre = nombreNumero.value.trim();
+proveedor.telefono = telefonoNumero.value.trim();
+proveedor.direccion = direccionNumero.value.trim();
+proveedor.descripcion = descripcionNumero.value.trim();
+archivo = imagenNumero.files[0];
+}
+
+/* ===== VALIDAR CAMPOS ===== */
+
+if(!proveedor.nombre){
+mostrarNotificacion("Completa los campos obligatorios ⚠️","#dc3545");
+return;
+}
+
+/* ===== SIN IMAGEN SOLO PARA NUMEROS ===== */
+
+if(!archivo && cat==="Numeros del Pueblo"){
+
+proveedor.imagen="https://via.placeholder.com/400x250?text=Numero";
+
+if(window.editandoId){
+
+proveedor.id = window.editandoId;
+proveedor.usuario = usuarioActual;
+
+const anterior = proveedores.find(x=>x.id===window.editandoId);
+if(anterior && !proveedor.imagen){
+proveedor.imagen = anterior.imagen;
+}
+
+proveedores = proveedores.map(x =>
+x.id===window.editandoId ? proveedor : x
+);
+
+window.editandoId=null;
+
+}else{
+
+if(window.editandoId!=null){
+
+const index = proveedores.findIndex(p=>p.id===window.editandoId);
+
+if(index>-1){
+
+// conservar imagen si no cambió
+if(!proveedor.imagen){
+proveedor.imagen = proveedores[index].imagen;
+}
+
+proveedor.id = window.editandoId;
+
+proveedores[index] = proveedor;
+
+}
+
+window.editandoId=null;
+
+}else{
+
+proveedores.push(proveedor);
+
+}
+
+}
+localStorage.setItem("proveedores",JSON.stringify(proveedores));
+actualizarStatsAdmin();
+if(eraRegistroUsuario){
+mostrarNotificacion("Tu negocio fue enviado para revisión ✅");
+}else{
+mostrarNotificacion("Proveedor guardado ✔️");
+}
+
+limpiarFormularios();
+
+if(window.volverAMisPublicaciones){
+
+window.volverAMisPublicaciones=false;
+mostrarMisPublicaciones();
+
+}else if(eraRegistroUsuario){
+
+volverMenuUsuario();
+
+}else{
+
+volverMenuAdmin();
+
+}
+
+modoRegistroUsuario=false;
+actualizarContador();
+return;
+}
+
+/* ===== IMAGEN OBLIGATORIA ===== */
+
+if(!archivo){
+mostrarNotificacion("Selecciona una imagen 📷","#dc3545");
+return;
+}
+
+/* ===== GUARDAR CON IMAGEN ===== */
+
+reducirImagen(archivo,800,data=>{
+
+proveedor.imagen=data;
+
+if(window.editandoId){
+
+proveedor.id = window.editandoId;
+
+proveedores = proveedores.map(p =>
+p.id===window.editandoId ? proveedor : p
+);
+
+window.editandoId=null;
+
+}else{
+
+proveedores.push(proveedor);
+
+}
+localStorage.setItem("proveedores",JSON.stringify(proveedores));
+actualizarStatsAdmin();
+if(eraRegistroUsuario){
+mostrarNotificacion("Tu negocio fue enviado para revisión ✅");
+}else{
+mostrarNotificacion("Proveedor guardado ✔️");
+}
+
+limpiarFormularios();
+
+if(eraRegistroUsuario){
+volverMenuUsuario();
+}else{
+volverMenuAdmin();
+}
+
+modoRegistroUsuario=false;
+actualizarContador();
+
+cargarOfertasHoy()
+});
+
+}
+
+/* ================= IMG ================= */
+function reducirImagen(file,max,cb){
+const r=new FileReader();
+r.onload=e=>{
+const img=new Image();
+img.onload=()=>{
+const c=document.createElement("canvas");
+const s=Math.min(max/img.width,1);
+c.width=img.width*s;
+c.height=img.height*s;
+c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+cb(c.toDataURL("image/jpeg",0.7));
+};
+img.src=e.target.result;
+};
+r.readAsDataURL(file);
+}
+
+/* ================= NOTIF ================= */
+function mostrarNotificacion(msg,color){
+notificacion.style.background=color||"#28a745";
+notificacion.innerText=msg;
+notificacion.style.display="block";
+setTimeout(()=>notificacion.style.display="none",2500);
+}
+function linkWhatsApp(numero, nombre){
+
+const telefono = (numero||"").replace(/\D/g,"");
+
+const mensaje =
+`Hola, te contacto desde La App del Pueblo.
+
+Vi tu negocio: ${nombre}
+
+¿Podrías darme información por favor?`;
+
+return `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+}
+function limpiarFormularios(){
+
+document.querySelectorAll(
+"#agregarProveedor input:not([type=file]), #agregarProveedor textarea"
+).forEach(i=>i.value="");
+
+document.querySelectorAll(
+"#agregarProveedor input[type=file]"
+).forEach(i=>i.value="");
+
+document.querySelectorAll(
+"#agregarProveedor select"
+).forEach(s=>s.selectedIndex=0);
+
+document.querySelectorAll("#diasComida input")
+.forEach(c=>c.checked=false);
+// limpiar dias taxi
+document.querySelectorAll("#diasTaxi input")
+.forEach(c => c.checked = false);
+
+// limpiar dias consume local
+document.querySelectorAll("#diasComercio input")
+.forEach(c => c.checked = false);
+
+// limpiar horas taxi
+if(window.horaInicioTaxi) horaInicioTaxi.value = "";
+if(window.horaFinTaxi) horaFinTaxi.value = "";
+
+ocultarFormularios();
+categoriaSeleccion.value="";
+}
+function filtrarProveedores(){
+
+const texto = buscador.value.toLowerCase();
+
+proveedoresFiltrados = proveedoresBase.filter(p => {
+
+if(p.categoria === "Servicios"){
+return (
+(p.nombre||"").toLowerCase().includes(texto) ||
+(p.especialidad||"").toLowerCase().includes(texto) ||
+(p.descripcion||"").toLowerCase().includes(texto) ||
+(p.ubicacion||"").toLowerCase().includes(texto)
+);
+}
+
+return (
+(p.nombre||"").toLowerCase().includes(texto) ||
+(p.direccion||"").toLowerCase().includes(texto) ||
+(p.tipoComida||"").toLowerCase().includes(texto)
+);
+
+});
+
+mostrarProveedoresUsuario();
+}
+
+let favoritos = [];
+
+if(usuarioActual){
+  favoritos = JSON.parse(
+    localStorage.getItem("favoritos_" + usuarioActual.id)
+  ) || [];
+}
+
+function toggleFavorito(id){
+
+  let key = "favoritos_" + usuarioActual.id;
+
+  let favoritos = JSON.parse(localStorage.getItem(key)) || [];
+
+  id = Number(id);
+
+  if(favoritos.includes(id)){
+    favoritos = favoritos.filter(f => Number(f) !== id);
+  }else{
+    favoritos.push(id);
+  }
+
+  localStorage.setItem(key, JSON.stringify(favoritos));
+
+}
+
+function refrescarFavoritos(){
+mostrarProveedoresUsuario();
+}
+function mostrarFavoritos(){
+
+let key = "favoritos_" + usuarioActual.id;
+
+favoritos = JSON.parse(localStorage.getItem(key)) || [];
+favoritos = favoritos.map(f => Number(f));
+
+ocultarTodo();
+vistaFavoritos.classList.remove("hidden");
+dibujarFavoritos();
+
+}
+function dibujarFavoritos(){
+
+if(!usuarioActual) return;
+
+let key = "favoritos_" + usuarioActual.id;
+
+let favoritosUsuario = JSON.parse(localStorage.getItem(key)) || [];
+favoritosUsuario = favoritosUsuario.map(f => Number(f));
+
+contenedorFavoritos.innerHTML = "";
+
+const favs = proveedores.filter(p =>
+  favoritosUsuario.includes(p.id) &&
+  p.estadoPublicacion === "aprobado"
+);
+
+if(!favs.length){
+  contenedorFavoritos.innerHTML =
+  "<p style='text-align:center'>Aún no tienes favoritos ❤️</p>";
+  return;
+}
+
+favs.forEach(p=>{
+  let card = crearTarjetaProveedor(p);
+  contenedorFavoritos.appendChild(card);
+});
+
+}
+function buscarGlobal(){
+
+const texto =
+document.getElementById("buscadorGlobal").value
+.toLowerCase()
+.trim();
+
+if(texto.length < 4){
+return;
+}
+categoriaActual = "Búsqueda";
+
+ocultarTodo();
+listaUsuario.classList.remove("hidden");
+tituloCategoria.innerText = "🔍 Resultados para: " + texto;
+subcategoriasComidaDiv.classList.add("hidden");
+subcategoriasConsumeLocalDiv.classList.add("hidden");
+
+proveedoresBase = proveedores.filter(p=>{
+
+if(p.estadoPublicacion!=="aprobado") return false;
+
+return (
+(p.nombre||"").toLowerCase().includes(texto) ||
+(p.descripcion||"").toLowerCase().includes(texto) ||
+(p.categoria||"").toLowerCase().includes(texto) ||
+(p.subcategoriaConsumeLocal||"").toLowerCase().includes(texto) ||
+(p.tipoComida||"").toLowerCase().includes(texto) ||
+(p.especialidad||"").toLowerCase().includes(texto)
+);
+
+});
+
+proveedoresFiltrados = [...proveedoresBase];
+
+mostrarProveedoresUsuario();
+}
+
+function publicarVentaUsuario(){
+
+const nombre = document.getElementById("uNombreVenta").value.trim();
+const descripcion = document.getElementById("uDescripcionVenta").value.trim();
+const precioPromo = document.getElementById("precioPromoVenta").value.trim();
+const precio = document.getElementById("uPrecioVenta").value.trim();
+const telefono = document.getElementById("uTelefonoVenta").value.trim();
+const archivo = document.getElementById("uImagenVenta").files[0];
+
+if(!nombre || !telefono){
+mostrarNotificacion("Completa nombre y teléfono ⚠️","#dc3545");
+return;
+}
+
+if(!archivo && !window.editandoId){
+mostrarNotificacion("Selecciona una imagen 📷","#dc3545");
+return;
+}
+
+let proveedor = {
+id: Date.now(),
+categoria: "Ventas",
+usuarioId: usuarioActual.id,
+nombre: nombre,
+descripcion: descripcion,
+precio: precio,
+precioPromo: precioPromo,
+telefono: telefono,
+whatsapp: telefono,
+estado: "Disponible",
+estadoPublicacion: "pendiente",
+fecha: new Date().toLocaleDateString(),
+nombreUsuario: usuarioActual.nombre
+};
+
+const guardar = (imagen)=>{
+
+if(imagen) proveedor.imagen = imagen;
+
+if(window.editandoId){
+
+proveedor.id = window.editandoId;
+
+/* actualizar en proveedores */
+proveedores = proveedores.map(p =>
+p.id===window.editandoId ? proveedor : p
+);
+
+/* actualizar en mis publicaciones */
+misPublicaciones = misPublicaciones.map(p =>
+p.id===window.editandoId ? proveedor : p
+);
+
+window.editandoId=null;
+
+}else{
+
+/* guardar nuevo */
+proveedores.push(proveedor);
+misPublicaciones.push(proveedor);
+
+}
+
+localStorage.setItem("proveedores",JSON.stringify(proveedores));
+actualizarStatsAdmin();
+localStorage.setItem("misPublicaciones",JSON.stringify(misPublicaciones));
+
+mostrarNotificacion("Enviado para aprobación ✅");
+
+// LIMPIAR FORMULARIO
+document.getElementById("uNombreVenta").value="";
+document.getElementById("uDescripcionVenta").value="";
+document.getElementById("uPrecioVenta").value="";
+document.getElementById("uTelefonoVenta").value="";
+document.getElementById("uImagenVenta").value="";
+
+volverMenuUsuario();
+};
+
+/* si sube imagen nueva */
+if(archivo){
+reducirImagen(archivo,800,data=>guardar(data));
+}else{
+guardar();
+}
+
+}
+function verPendientes(){
+
+ocultarTodo();
+document.getElementById("listaAdmin").classList.remove("hidden");
+document.getElementById("contenedorAdmin").innerHTML="";
+proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+proveedores
+.filter(p=>p.estadoPublicacion==="pendiente")
+.forEach(p=>{
+let etiquetaPendiente = "";
+
+if(
+p.estadoPublicacion==="pendiente" &&
+p.usuario===usuarioActual
+){
+etiquetaPendiente =
+`<p style="color:#ffc107;font-weight:bold">
+⏳ En revisión por admin
+</p>`;
+}
+let card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=`
+<h3>${p.nombre}</h3>
+<p>${p.descripcion||""}</p>
+<p>💰 ${p.precio||""}</p>
+<p>📞 ${p.telefono||""}</p>
+
+<button onclick="aprobarVenta(${p.id})">✅ Aprobar</button>
+`;
+
+contenedorAdmin.appendChild(card);
+
+});
+
+}
+
+function aprobarVenta(id){
+
+proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+proveedores = proveedores.map(p=>{
+if(p.id===id){
+p.estadoPublicacion="aprobado";
+}
+return p;
+});
+
+localStorage.setItem("proveedores",JSON.stringify(proveedores));
+actualizarStatsAdmin();
+mostrarNotificacion("Venta aprobada ✔️");
+
+verPendientes();
+}
+
+/* ===== NEGOCIOS PENDIENTES ADMIN ===== */
+
+function verNegociosPendientes(){
+
+ocultarTodo();
+listaAdmin.classList.remove("hidden");
+contenedorAdmin.innerHTML="";
+
+proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+const pendientes = proveedores.filter(p=>p.estadoPublicacion==="pendiente");
+
+if(!pendientes.length){
+contenedorAdmin.innerHTML="<p style='text-align:center'>No hay negocios pendientes</p>";
+return;
+}
+
+pendientes.forEach(p=>{
+
+let card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=`
+<img src="${p.imagen}">
+
+<h3>${p.nombre}</h3>
+
+<p><b>${p.categoria}</b></p>
+
+${p.puesto ? `<p>💼 ${p.puesto}</p>` : ""}
+${p.sueldo ? `<p>💰 ${p.sueldo}</p>` : ""}
+${p.precio ? `<p>💲 ${p.precio}</p>` : ""}
+${p.descripcion ? `<p>📝 ${p.descripcion}</p>` : ""}
+${p.telefono ? `<p>📞 ${p.telefono}</p>` : ""}
+
+<p style="color:#ffc107;font-weight:bold">⏳ Pendiente aprobación</p>
+
+<button onclick="aprobarNegocio(${p.id})"
+style="width:100%;background:#28a745;color:#fff;border:none;padding:10px;border-radius:6px;margin-top:6px;font-weight:bold">
+✅ Aprobar
+</button>
+`;
+
+contenedorAdmin.appendChild(card);
+
+});
+
+}
+
+
+
+function aprobarNegocio(id){
+
+let lista = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+lista = lista.map(p=>{
+if(p.id===id){
+p.estadoPublicacion="aprobado";
+}
+return p;
+});
+
+localStorage.setItem("proveedores",JSON.stringify(lista));
+
+/* actualizar array global */
+proveedores = lista;
+
+actualizarStatsAdmin();
+mostrarNotificacion("Negocio aprobado ✔️");
+
+/* 🔥 QUEDARSE EN PANTALLA ADMIN */
+verNegociosPendientes();
+
+}
+function abrirFormularioVacanteUsuario(){
+
+ocultarTodo();
+// LIMPIAR FORMULARIO VACANTE
+empresa.value="";
+puesto.value="";
+sueldo.value="";
+horario.selectedIndex=0;
+requisitos.value="";
+telefono.value="";
+foto.value="";
+const v = document.getElementById("vacanteUsuario");
+
+if(!v){
+alert("No existe vacanteUsuario");
+return;
+}
+
+v.classList.remove("hidden");
+window.scrollTo(0,0);
+
+}
+function publicarVacanteUsuario(){
+
+let proveedor = {
+id: Date.now(),
+categoria: "Ofertas laborales",
+usuarioId: usuarioActual.id,
+nombre: empresa.value.trim(),
+puesto: puesto.value.trim(),
+sueldo: sueldo.value.trim(),
+horario: horario.value.trim(),
+requisitos: requisitos.value.trim(),
+telefono: telefono.value.trim(),
+estadoPublicacion: "pendiente"
+};
+
+let archivo = foto.files[0];
+
+if(!archivo){
+mostrarNotificacion("Selecciona una imagen 📷","#dc3545");
+return;
+}
+
+reducirImagen(archivo,800,data=>{
+
+proveedor.imagen=data;
+
+proveedores.push(proveedor);
+misPublicaciones.push(proveedor);
+localStorage.setItem("misPublicaciones", JSON.stringify(misPublicaciones));
+localStorage.setItem("proveedores",JSON.stringify(proveedores));
+actualizarStatsAdmin();
+mostrarNotificacion("Vacante enviada para aprobación ✅");
+
+// LIMPIAR FORMULARIO
+empresa.value="";
+puesto.value="";
+sueldo.value="";
+horario.selectedIndex=0;
+requisitos.value="";
+telefono.value="";
+foto.value="";
+
+volverMenuUsuario();
+
+});
+
+}
+function editarProveedor(id){
+
+const p = proveedores.find(x=>x.id===id);
+if(!p) return;
+
+window.editandoId = id;
+modoRegistroUsuario = true;
+window.volverAMisPublicaciones = true;
+
+ocultarTodo();
+
+// 👉 SI ES VENTA → abrir formulario usuario
+if(p.categoria==="Ventas"){
+document.getElementById("ventaUsuario").classList.remove("hidden");
+
+uNombreVenta.value=p.nombre||"";
+uDescripcionVenta.value=p.descripcion||"";
+uPrecioVenta.value=p.precio||"";
+uTelefonoVenta.value=p.telefono||"";
+
+return;
+}
+
+// 👉 SI ES VACANTE → formulario usuario
+if(p.categoria==="Ofertas laborales"){
+document.getElementById("vacanteUsuario").classList.remove("hidden");
+
+empresa.value=p.nombre||"";
+puesto.value=p.puesto||"";
+sueldo.value=p.sueldo||"";
+horario.value=p.horario||"";
+requisitos.value=p.requisitos||"";
+telefono.value=p.telefono||"";
+
+return;
+}
+
+// 👉 OTROS → usar admin normal
+agregarProveedor.classList.remove("hidden");
+
+categoriaSeleccion.value = p.categoria;
+mostrarFormularioCategoria();
+
+categoriaSeleccion.value = p.categoria;
+mostrarFormularioCategoria();
+
+// ===== COMIDA =====
+if(p.categoria==="Comida"){
+nombreComida.value=p.nombre||"";
+direccionComida.value=p.direccion||"";
+telefonoComida.value=p.telefono||"";
+descripcionComida.value=p.descripcion||"";
+tipoComida.value=p.tipoComida||"";
+horaInicioComida.value=p.horaInicio||"";
+horaFinComida.value=p.horaFin||"";
+}
+
+// ===== TAXI =====
+if(p.categoria==="Taxi"){
+nombreTaxi.value=p.nombre||"";
+telefonoTaxi.value=p.telefono||"";
+numeroTaxi.value=p.numeroTaxi||"";
+baseTaxi.value=p.base||"";
+descripcionTaxi.value=p.descripcion||"";
+horaInicioTaxi.value=p.horaInicio||"";
+horaFinTaxi.value=p.horaFin||"";
+}
+
+// ===== SERVICIOS =====
+if(p.categoria==="Servicios"){
+nombreServicio.value=p.nombre||"";
+tipoServicio.value=p.tipo||"";
+ubicacionServicio.value=p.ubicacion||"";
+telefonoServicio.value=p.telefono||"";
+descripcionServicio.value=p.descripcion||"";
+}
+
+// ===== CONSUME LOCAL =====
+if(p.categoria==="Consume Local"){
+nombreComercio.value=p.nombre||"";
+direccionComercio.value=p.direccion||"";
+telefonoComercio.value=p.telefono||"";
+descripcionComercio.value=p.descripcion||"";
+subcategoriaConsumeLocal.value=p.subcategoriaConsumeLocal||"";
+}
+
+// ===== OFERTAS =====
+if(p.categoria==="Ofertas laborales"){
+nombreOferta.value=p.nombre||"";
+ubicacionOferta.value=p.ubicacion||"";
+telefonoOferta.value=p.telefono||"";
+puestoOferta.value=p.puesto||"";
+sueldoOferta.value=p.sueldo||"";
+horarioOferta.value=p.horario||"";
+}
+
+// ===== VENTAS =====
+if(p.categoria==="Ventas"){
+nombreVenta.value=p.nombre||"";
+telefonoVenta.value=p.telefono||"";
+precioVenta.value=p.precio||"";
+
+}
+
+// ===== NUMEROS =====
+if(p.categoria==="Numeros del Pueblo"){
+nombreNumero.value=p.nombre||"";
+telefonoNumero.value=p.telefono||"";
+direccionNumero.value=p.direccion||"";
+descripcionNumero.value=p.descripcion||"";
+}
+
+}
+function mostrarMisPublicaciones(){
+
+ocultarTodo();
+vistaMisPublicaciones.classList.remove("hidden");
+
+const cont = document.getElementById("contenedorMisPublicaciones");
+cont.innerHTML="";
+
+proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+const mias = proveedores.filter(p => 
+  p.usuarioId === usuarioActual.id
+);
+
+if(!mias.length){
+  cont.innerHTML="<p style='text-align:center'>No has publicado nada aún</p>";
+  return;
+}
+
+mias.forEach(p=>{
+
+  let card = crearTarjetaProveedor(p);
+let estadoDiv = document.createElement("div");
+
+let color="";
+let texto="";
+
+if(p.estadoPublicacion==="pendiente"){
+  color="#ffc107";
+  texto="⏳ En revisión";
+}
+
+if(p.estadoPublicacion==="aprobado"){
+  color="#28a745";
+  texto="🟢 Publicado";
+}
+
+if(p.estadoPublicacion==="oculto"){
+  color="#dc3545";
+  texto="⛔ Suspendido";
+}
+
+estadoDiv.innerHTML = `
+<div style="
+background:${color};
+color:white;
+padding:6px 12px;
+font-weight:bold;
+text-align:center;
+">
+${texto}
+</div>
+`;
+
+card.insertBefore(estadoDiv, card.firstChild);
+  // ===== BOTONES EXTRA USUARIO =====
+  let botones = document.createElement("div");
+  botones.style.marginTop="10px";
+  botones.innerHTML = `
+  <div style="display:flex;gap:8px">
+    <button onclick="editarProveedor(${p.id})"
+    style="flex:1;background:#007bff;color:#fff;border:none;padding:10px;border-radius:6px">
+    ✏️ Editar
+    </button>
+
+    <button onclick="eliminarMiPublicacion(${p.id})"
+    style="flex:1;background:#dc3545;color:#fff;border:none;padding:10px;border-radius:6px">
+    🗑️ Eliminar
+    </button>
+  </div>
+  `;
+
+  card.appendChild(botones);
+
+  cont.appendChild(card);
+
+});
+
+}
+function eliminarMiPublicacion(id){
+
+if(!confirm("¿Eliminar esta publicación?")) return;
+
+// eliminar del array
+proveedores = proveedores.filter(p=>p.id!==id);
+
+// guardar
+localStorage.setItem("proveedores", JSON.stringify(proveedores));
+
+// 🔥 RECARGAR ARRAY GLOBAL
+proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+// 🔥 REDIBUJAR LA LISTA INMEDIATO
+mostrarMisPublicaciones();
+
+// actualizar contadores admin
+actualizarStatsAdmin();
+
+mostrarNotificacion("Publicación eliminada 🗑️","#dc3545");
+
+}
+function filtrarAdmin(texto){
+
+texto = texto.toLowerCase();
+
+const filtrados = proveedores.filter(p=>
+
+(p.nombre||"").toLowerCase().includes(texto) ||
+(p.telefono||"").includes(texto) ||
+(p.categoria||"").toLowerCase().includes(texto)
+
+);
+
+dibujarAdmin(filtrados);
+
+}
+function dibujarAdmin(lista){
+
+contenedorAdmin.innerHTML="";
+
+// ===== ORDENAR =====
+// 1 pendientes
+// 2 aprobados
+// 3 ocultos/suspendidos
+
+lista.sort((a,b)=>{
+
+const estadoA =
+a.estadoPublicacion==="pendiente" ? 0 :
+a.estadoPublicacion==="aprobado" ? 1 : 2;
+
+const estadoB =
+b.estadoPublicacion==="pendiente" ? 0 :
+b.estadoPublicacion==="aprobado" ? 1 : 2;
+
+return estadoA - estadoB;
+
+});
+
+lista.forEach((p)=>{
+
+let i = proveedores.findIndex(x=>x.id===p.id);
+let activo = p.estadoPublicacion==="aprobado";
+let pendiente = p.estadoPublicacion==="pendiente";
+
+// ===== COLOR TARJETA =====
+let fondo =
+pendiente ? "#fff3cd" :   // amarillo
+activo ? "#ffffff" :      // blanco
+"#f8d7da";                // rojo suave suspendido
+
+let borde =
+pendiente ? "#ffc107" :
+activo ? "#28a745" :
+"#dc3545";
+
+let c=document.createElement("div");
+c.className="card";
+
+c.style.background=fondo;
+c.style.border="2px solid "+borde;
+
+c.innerHTML=`
+
+${p.imagen ? `<img src="${p.imagen}" style="width:60px;height:60px;object-fit:cover;border-radius:10px">`:""}
+
+<h3>${p.nombre}</h3>
+
+<p>${p.categoria}</p>
+
+<p style="font-weight:bold;color:${pendiente?"#856404":activo?"#28a745":"#dc3545"}">
+
+${pendiente?"⏳ Pendiente aprobación":
+activo?"🟢 Activo":
+"⛔ Suspendido"}
+
+</p>
+
+<div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+
+${pendiente?`
+<button onclick="aprobarNegocio(${p.id})"
+style="background:#28a745;color:#fff">
+✅ Aprobar
+</button>
+`:""}
+
+<button onclick="editarProveedorAdmin(${i})">
+✏️ Editar
+</button>
+
+<button onclick="toggleActivo(${p.id})"
+style="background:${activo?"#ffc107":"#28a745"};color:#000">
+
+${activo?"⛔ Suspender":"✅ Activar"}
+
+</button>
+
+<button onclick="eliminarProveedor(${i})"
+class="back-btn">
+🗑 Eliminar
+</button>
+
+</div>
+`;
+
+contenedorAdmin.appendChild(c);
+
+});
+
+}
+
+function toggleActivo(id){
+
+proveedores = proveedores.map(p=>{
+
+if(p.id===id){
+
+if(p.estadoPublicacion==="oculto"){
+p.estadoPublicacion="aprobado";
+}else{
+p.estadoPublicacion="oculto";
+}
+
+}
+
+return p;
+
+});
+
+localStorage.setItem("proveedores",JSON.stringify(proveedores));
+actualizarStatsAdmin();
+mostrarNotificacion("Estado actualizado ✔️");
+
+cargarListaAdmin();
+
+}
+function actualizarStatsAdmin(){
+
+let proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+// ===== NORMALIZAR PROVEEDORES GUARDADOS =====
+let cambio = false;
+
+proveedores.forEach(p=>{
+
+// arreglar días
+if(Array.isArray(p.dias)){
+let nuevos = p.dias.map(d=>Number(d)).filter(d=>!isNaN(d));
+if(JSON.stringify(nuevos)!==JSON.stringify(p.dias)){
+p.dias = nuevos;
+cambio = true;
+}
+}
+
+
+
+// limpiar espacios en horas
+if(typeof p.horaInicio==="string") p.horaInicio=p.horaInicio.trim();
+if(typeof p.horaFin==="string") p.horaFin=p.horaFin.trim();
+
+});
+
+// guardar si hubo cambios
+if(cambio){
+localStorage.setItem("proveedores",JSON.stringify(proveedores));
+}
+
+let provActivos = 0;
+let provInactivos = 0;
+let ventasActivas = 0;
+let vacantesActivas = 0;
+
+proveedores.forEach(p=>{
+
+// ===== PROVEEDORES (negocios normales) =====
+if(
+p.categoria!=="Ventas" &&
+p.categoria!=="Ofertas laborales"
+){
+if(p.estadoPublicacion==="aprobado"){
+provActivos++;
+}else{
+provInactivos++;
+}
+}
+
+// ===== VENTAS =====
+if(
+p.categoria==="Ventas" &&
+p.estadoPublicacion==="aprobado" &&
+p.estado!=="Vendido"
+){
+ventasActivas++;
+}
+
+// ===== VACANTES =====
+if(
+p.categoria==="Ofertas laborales" &&
+p.estadoPublicacion==="aprobado" &&
+p.estado!=="Cubierta"
+){
+vacantesActivas++;
+}
+
+});
+
+// ===== MOSTRAR =====
+document.getElementById("statProvActivos").textContent = provActivos;
+document.getElementById("statProvPend").textContent = provInactivos; // este será INACTIVOS
+document.getElementById("statVentas").textContent = ventasActivas;
+document.getElementById("statVacantes").textContent = vacantesActivas;
+document.getElementById("statTotal").textContent = proveedores.length;
+// ===== BADGE PENDIENTES =====
+let pendientes = proveedores.filter(
+p=>p.estadoPublicacion==="pendiente"
+).length;
+
+let badge = document.getElementById("badgePendientes");
+
+if(badge){
+badge.textContent = pendientes;
+badge.style.display = pendientes>0 ? "block" : "none";
+}
+}
+window.onload = function(){
+
+proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+actualizarStatsAdmin();
+// ===== BADGE OPINIONES =====
+let opiniones = JSON.parse(localStorage.getItem("opiniones")) || [];
+
+let pendientesOpiniones = opiniones.filter(
+o => o.estado === "pendiente"
+).length;
+
+let badgeOpiniones = document.getElementById("badgeOpiniones");
+
+if(badgeOpiniones){
+badgeOpiniones.textContent = pendientesOpiniones;
+badgeOpiniones.style.display = pendientesOpiniones > 0 ? "block" : "none";
+}
+/* 🔥 SINCRONIZAR ENTRE PESTAÑAS / VISTAS */
+window.addEventListener("storage", ()=>{
+proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+});
+
+}
+function actualizarBadgeOpiniones(){
+
+let opiniones = JSON.parse(localStorage.getItem("opiniones")) || [];
+
+let pendientesOpiniones = opiniones.filter(
+o => o.estado === "pendiente"
+).length;
+
+let badgeOpiniones = document.getElementById("badgeOpiniones");
+
+if(badgeOpiniones){
+badgeOpiniones.textContent = pendientesOpiniones;
+badgeOpiniones.style.display = pendientesOpiniones > 0 ? "block" : "none";
+}
+
+}
+function abrirOpinion(id){
+proveedorOpinion=id;
+estrellasSeleccionadas=0;
+document.querySelectorAll(".star").forEach(s=>s.classList.remove("activa"));
+comentarioPro.value="";
+modalOpinion.style.display="flex";
+}
+
+function cerrarModalOpinion(){
+modalOpinion.style.display="none";
+}
+
+function setStarPro(n){
+
+estrellasSeleccionadas=n;
+
+document.querySelectorAll(".star").forEach((s,i)=>{
+s.classList.toggle("activa",i<n);
+});
+
+}
+
+function guardarOpinionPro(){
+opiniones = JSON.parse(localStorage.getItem("opiniones")) || [];
+if(!estrellasSeleccionadas){
+mostrarNotificacion("Selecciona estrellas ⭐","#dc3545");
+return;
+}
+
+let existe = opiniones.find(o=>
+o.idProveedor===proveedorOpinion &&
+o.usuario===usuarioActual
+);
+
+if(existe){
+mostrarNotificacion("Ya opinaste este negocio 👍","#dc3545");
+return;
+}
+
+opiniones.push({
+id:Date.now(),
+idProveedor:proveedorOpinion,
+usuario:usuarioActual,
+estrellas:estrellasSeleccionadas,
+comentario:comentarioPro.value,
+estado:"pendiente"
+});
+
+localStorage.setItem("opiniones",JSON.stringify(opiniones));
+
+cerrarModalOpinion();
+mostrarNotificacion("Opinión enviada para revisión ⭐");
+}
+function datosRating(id){
+opiniones = JSON.parse(localStorage.getItem("opiniones")) || [];
+let lista = opiniones.filter(o=>
+o.idProveedor===id && o.estado==="aprobado"
+);
+
+if(!lista.length) return {prom:0,total:0,ultimo:null};
+
+let suma=lista.reduce((s,o)=>s+Number(o.estrellas),0);
+
+return{
+prom:(suma/lista.length).toFixed(1),
+total:lista.length,
+ultimo:lista[lista.length-1]
+};
+}
+function verOpinionesPendientes(){
+
+ocultarTodo();
+listaAdmin.classList.remove("hidden");
+contenedorAdmin.innerHTML="";
+
+opiniones = JSON.parse(localStorage.getItem("opiniones"))||[];
+
+opiniones.filter(o=>o.estado==="pendiente")
+.forEach(o=>{
+
+let p=proveedores.find(x=>x.id===o.idProveedor);
+
+let c=document.createElement("div");
+c.className="card";
+
+c.innerHTML=`
+<h3>${p?p.nombre:"Publicación"}</h3>
+<p>⭐ ${o.estrellas}</p>
+<p>${o.comentario||""}</p>
+<p style="font-size:12px;color:#555">por ${o.usuario}</p>
+
+<button onclick="aprobarOpinion(${o.id})"
+style="background:#28a745;color:white">Aprobar</button>
+
+<button onclick="rechazarOpinion(${o.id})"
+style="background:#dc3545;color:white">Eliminar</button>
+`;
+
+contenedorAdmin.appendChild(c);
+
+});
+}
+
+function aprobarOpinion(id){
+
+opiniones = JSON.parse(localStorage.getItem("opiniones")) || [];
+
+opiniones = opiniones.map(o=>{
+if(o.id===id)o.estado="aprobado";
+return o;
+});
+
+localStorage.setItem("opiniones",JSON.stringify(opiniones));
+
+verOpinionesPendientes();
+actualizarBadgeOpiniones(); 
+}
+
+function rechazarOpinion(id){
+
+opiniones = JSON.parse(localStorage.getItem("opiniones")) || [];
+
+opiniones = opiniones.filter(o=>o.id!==id);
+
+localStorage.setItem("opiniones",JSON.stringify(opiniones));
+
+verOpinionesPendientes();
+actualizarBadgeOpiniones(); 
+}
+function pintarEstrellas(prom){
+
+let html="";
+let completas=Math.floor(prom);
+let media = prom - completas >= 0.5;
+
+for(let i=0;i<5;i++){
+
+if(i<completas){
+html+="<span style='color:#ffc107;font-size:18px'>★</span>";
+}
+else if(i===completas && media){
+html+="<span style='color:#ffc107;font-size:18px'>★</span>";
+media=false;
+}
+else{
+html+="<span style='color:#ddd;font-size:18px'>★</span>";
+}
+
+}
+
+return html;
+}
+function estadoNegocio(p){
+
+let abierto = estaAbierto(p);
+
+if(abierto===null) return {tipo:"",texto:""};
+
+if(p.categoria==="Taxi"){
+
+return abierto
+? {tipo:"abierto",texto:"🟢 Disponible"}
+: {tipo:"cerrado",texto:"🔴 No disponible"};
+
+}
+
+return abierto
+? {tipo:"abierto",texto:"🟢 Abierto ahora"}
+: {tipo:"cerrado",texto:"🔴 Cerrado"};
+
+}
+function tiempoEstimado(p){
+
+if(!p.horaInicio || !p.horaFin) return "";
+
+const ahora = new Date();
+const [hi,mi] = p.horaInicio.split(":").map(Number);
+const [hf,mf] = p.horaFin.split(":").map(Number);
+
+const inicio = hi*60 + mi;
+const fin = hf*60 + mf;
+const actual = ahora.getHours()*60 + ahora.getMinutes();
+
+let abierto = estaAbierto(p);
+
+function formato(h,m){
+let hora = h % 12 || 12;
+let ampm = h >= 12 ? "PM" : "AM";
+return hora + ":" + String(m).padStart(2,"0") + " " + ampm;
+}
+
+if(abierto){
+return "Cierra a las " + formato(hf,mf);
+}else{
+return "Abre a las " + formato(hi,mi);
+}
+
+}
+function formatoHora(hora){
+let [h,m]=hora.split(":").map(Number);
+let hora12 = h % 12 || 12;
+let ampm = h>=12 ? "PM":"AM";
+return hora12 + ":" + m.toString().padStart(2,"0") + " " + ampm;
+}
+function animarFavorito(btn, id){
+
+toggleFavorito(id);
+
+// animación
+btn.classList.add("fav-animar");
+
+setTimeout(()=>{
+btn.classList.remove("fav-animar");
+
+// si estamos en la pantalla de favoritos
+if(!vistaFavoritos.classList.contains("hidden")){
+dibujarFavoritos();
+}else{
+mostrarProveedoresUsuario();
+}
+
+},400);
+
+}
+
+
+function iniciarSesionSelector() {
+  const id = document.getElementById("selectorUsuario").value;
+  if (!id) return alert("Selecciona un usuario");
+
+  const usuario = usuarios.find(u => u.id == id);
+  localStorage.setItem("usuarioActual", JSON.stringify(usuario));
+  location.reload();
+}
+
+function cerrarSesion() {
+  localStorage.removeItem("usuarioActual");
+  location.reload();
+}
+
+function verificarSesion(){
+
+usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
+
+if(usuarioActual){
+
+if(usuarioActual.rol === "admin"){
+mostrarAdmin();
+}else{
+mostrarMenuUsuario();
+}
+
+}else{
+
+mostrarMenuUsuario();
+
+}
+
+}
+function esFavorito(id){
+
+  if(!usuarioActual) return false;
+
+  let key = "favoritos_" + usuarioActual.id;
+
+  let lista = JSON.parse(localStorage.getItem(key)) || [];
+
+  return lista.includes(Number(id));
+
+}
+function abrirNegocio(id){
+
+let negocio = proveedores.find(p => p.id == id);
+
+if(!negocio) return;
+
+ocultarTodo();
+
+document.getElementById("vistaNegocio").classList.remove("hidden");
+
+document.getElementById("tituloNegocio").innerText = negocio.nombre;
+
+let cont = document.getElementById("contenidoNegocio");
+
+cont.innerHTML = "";
+
+let card = crearTarjetaProveedor(negocio);
+
+cont.appendChild(card);
+
+}
+function verProveedor(p){
+
+categoriaActual = p.categoria;
+
+ocultarTodo();
+listaUsuario.classList.remove("hidden");
+
+tituloCategoria.innerText = p.nombre;
+
+subcategoriasComidaDiv.classList.add("hidden");
+subcategoriasConsumeLocalDiv.classList.add("hidden");
+buscador.classList.add("hidden");
+
+contenedorUsuario.innerHTML = "";
+
+let card = crearTarjetaProveedor(p);
+contenedorUsuario.appendChild(card);
+
+}
+function verCerca(){
+
+if(!navigator.geolocation){
+mostrarNotificacion("Tu dispositivo no soporta ubicación","#dc3545");
+return;
+}
+
+navigator.geolocation.getCurrentPosition(function(pos){
+
+let latUsuario = pos.coords.latitude;
+let lngUsuario = pos.coords.longitude;
+
+let proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+let cercanos = [];
+
+proveedores.forEach(p=>{
+
+if(p.lat && p.lng){
+
+let distancia = calcularDistancia(
+latUsuario,
+lngUsuario,
+p.lat,
+p.lng
+);
+
+p.distancia = distancia;
+
+cercanos.push(p);
+
+}
+
+});
+
+cercanos.sort((a,b)=>a.distancia-b.distancia);
+
+proveedoresFiltrados = cercanos;
+
+ocultarTodo();
+
+listaUsuario.classList.remove("hidden");
+
+tituloCategoria.innerText="📍 Cerca de ti";
+
+mostrarProveedoresUsuario();
+
+},
+function(error){
+
+mostrarNotificacion("Activa tu ubicación para usar 'Cerca' 📍","#dc3545");
+
+},
+{
+enableHighAccuracy:true,
+timeout:10000
+});
+
+}
+function calcularDistancia(lat1,lng1,lat2,lng2){
+
+const R = 6371;
+
+let dLat = (lat2-lat1)*Math.PI/180;
+let dLng = (lng2-lng1)*Math.PI/180;
+
+let a =
+Math.sin(dLat/2)*Math.sin(dLat/2) +
+Math.cos(lat1*Math.PI/180) *
+Math.cos(lat2*Math.PI/180) *
+Math.sin(dLng/2)*Math.sin(dLng/2);
+
+let c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+
+return R*c;
+
+}
+function mostrarMenuUsuario(){
+
+ocultarTodo();
+
+document.getElementById("menuUsuario").classList.remove("hidden");
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+function cargarPerfil(){
+
+ocultarTodo();
+
+let cont = document.getElementById("contenidoPerfil");
+
+if(!cont){
+
+// crear pantalla perfil si no existe
+let div = document.createElement("div");
+div.id = "pantallaPerfil";
+div.className = "container";
+
+div.innerHTML = `
+<h2>Mi perfil</h2>
+
+<div id="contenidoPerfil"></div>
+
+<button onclick="mostrarMenuUsuario()" class="back-btn">Volver</button>
+`;
+
+document.body.appendChild(div);
+
+cont = document.getElementById("contenidoPerfil");
+
+}
+
+document.getElementById("pantallaPerfil").classList.remove("hidden");
+
+if(!usuarioActual){
+
+cont.innerHTML = `
+<h3>No has iniciado sesión</h3>
+
+<button onclick="mostrarLogin()">Iniciar sesión</button>
+
+<br><br>
+
+<button onclick="mostrarRegistro()">Crear cuenta</button>
+`;
+
+return;
+
+}
+
+cont.innerHTML = `
+<h3>👤 ${usuarioActual.nombre}</h3>
+
+<p>📞 ${usuarioActual.telefono || ""}</p>
+
+<br>
+
+<button onclick="cerrarSesion()">Cerrar sesión</button>
+`;
+
+}
+function mostrarRegistro(){
+
+const cont = document.getElementById("contenidoPerfil");
+
+cont.innerHTML = `
+<h2>Crear cuenta</h2>
+
+<input id="regNombre" placeholder="Nombre">
+
+<input id="regTelefono" placeholder="Teléfono">
+
+<input id="regPass" type="password" placeholder="Contraseña">
+
+<br><br>
+
+<button onclick="crearCuenta()">Crear cuenta</button>
+`;
+
+}
+function crearCuenta(){
+
+const nombre = document.getElementById("regNombre").value;
+const telefono = document.getElementById("regTelefono").value;
+const pass = document.getElementById("regPass").value;
+
+const nuevoUsuario = {
+id: Date.now(),
+nombre:nombre,
+telefono:telefono,
+pass:pass,
+rol:"usuario"
+};
+
+usuarios.push(nuevoUsuario);
+
+localStorage.setItem("usuarios", JSON.stringify(usuarios));
+localStorage.setItem("usuarioActual", JSON.stringify(nuevoUsuario));
+
+location.reload();
+
+}
+function mostrarLogin(){
+
+const cont = document.getElementById("contenidoPerfil");
+
+cont.innerHTML = `
+<h2>Iniciar sesión</h2>
+
+<input id="loginTelefono" placeholder="Teléfono">
+
+<input id="loginPass" type="password" placeholder="Contraseña">
+
+<br><br>
+
+<button onclick="iniciarSesion()">Entrar</button>
+`;
+
+}
+function iniciarSesion(){
+
+const tel = document.getElementById("loginTelefono").value;
+const pass = document.getElementById("loginPass").value;
+
+const user = usuarios.find(u => u.telefono == tel && u.pass == pass);
+
+if(user){
+
+localStorage.setItem("usuarioActual", JSON.stringify(user));
+location.reload();
+
+}else{
+
+alert("Usuario o contraseña incorrectos");
+
+}
+
+}
+function irInicio(){
+
+usuarioActual = JSON.parse(localStorage.getItem("usuarioActual"));
+
+if(usuarioActual && usuarioActual.rol === "admin"){
+mostrarAdmin();
+}else{
+mostrarMenuUsuario();
+}
+
+}
+function cargarOfertasHoy(){
+
+let contenedor = document.getElementById("ofertasHoy");
+
+if(!contenedor) return;
+
+contenedor.innerHTML="";
+
+let lista = proveedores.filter(p =>
+p.categoria==="Promocion" &&
+p.estadoPublicacion==="aprobado"
+);
+
+lista.slice(0,5).forEach(p=>{
+
+contenedor.innerHTML += `
+<div class="tarjetaOferta">
+
+<div class="promoImgContainer">
+
+<img src="${p.imagen || 'https://via.placeholder.com/300'}" class="promoImg">
+
+<div class="promoBadge">🔥 PROMO</div>
+
+</div>
+
+<div class="promoInfo">
+
+<h4>${p.nombre}</h4>
+
+<p>${p.descripcion || ""}</p>
+
+<div class="promoPrecio">$${p.precioPromo || ""}</div>
+
+<div class="promoTiempo">⏰ Solo hoy</div>
+
+</div>
+
+</div>
+`;
+
+});
+
+}
+function abrirMapaSeleccion(){
+
+const centro = {lat:21.7823,lng:-103.3021};
+
+const mapa = new google.maps.Map(
+document.getElementById("mapaSeleccion"),
+{
+zoom:16,
+center:centro
+}
+);
+
+marcadorMapa = new google.maps.Marker({
+position:centro,
+map:mapa,
+draggable:true
+});
+
+latSeleccion = centro.lat;
+lngSeleccion = centro.lng;
+
+marcadorMapa.addListener("dragend", function(){
+
+latSeleccion = marcadorMapa.getPosition().lat();
+lngSeleccion = marcadorMapa.getPosition().lng();
+
+});
+
+}
+</script>
+<div class="container hidden" id="ventaUsuario">
+
+<h2>Publicar artículo</h2>
+
+<input id="uNombreVenta" placeholder="¿Qué vendes?">
+
+<textarea id="uDescripcionVenta"
+placeholder="Describe lo que vendes"></textarea>
+
+<input id="precioPromo" placeholder="Precio de la promoción $">
+
+<input id="uPrecioVenta" placeholder="Precio">
+
+<input id="uTelefonoVenta" placeholder="Teléfono">
+
+<input type="file" id="uImagenVenta">
+
+<button onclick="publicarVentaUsuario()">Vender</button>
+<button onclick="volverMenuUsuario()" class="back-btn">Cancelar</button>
+
+</div>
+
+
+<div class="container hidden" id="vacanteUsuario">
+
+<h2>Publicar vacante</h2>
+
+<input type="text" id="empresa" placeholder="Nombre de tu empresa o negocio">
+
+<input type="text" id="puesto" placeholder="Puesto que ofreces">
+
+<input type="text" id="sueldo" placeholder="Sueldo">
+
+<select id="horario">
+  <option value="">Selecciona horario</option>
+  <option>Matutino</option>
+  <option>Vespertino</option>
+  <option>Diurno</option>
+  <option>Disponibilidad de horario</option>
+</select>
+
+<textarea id="requisitos" placeholder="Requisitos del puesto"></textarea>
+
+<input type="tel" id="telefono" placeholder="Teléfono">
+
+<input type="file" id="foto" accept="image/*">
+
+<button onclick="publicarVacanteUsuario()">Publicar vacante</button>
+<button onclick="volverMenuUsuario()" class="back-btn">Cancelar</button>
+
+</div>
+<button id="btnFlotanteVender"
+class="boton-flotante-vender"
+style="display:none"
+onclick="abrirFormularioVentaUsuario()">🛒</button>
+
+<button id="btnFlotanteVacante" class="boton-flotante-vender"
+style="display:none"
+onclick="abrirFormularioVacanteUsuario()">💼</button>
+<div id="modalOpinion" class="modal">
+<div class="modal-content">
+
+<h3 style="text-align:center">Tu experiencia</h3>
+
+<div style="text-align:center;margin:10px 0">
+<span class="star" onclick="setStarPro(1)">★</span>
+<span class="star" onclick="setStarPro(2)">★</span>
+<span class="star" onclick="setStarPro(3)">★</span>
+<span class="star" onclick="setStarPro(4)">★</span>
+<span class="star" onclick="setStarPro(5)">★</span>
+</div>
+
+<textarea id="comentarioPro"
+placeholder="Cuéntanos tu experiencia"></textarea>
+
+<button onclick="guardarOpinionPro()">Enviar</button>
+<button onclick="cerrarModalOpinion()" class="back-btn">Cancelar</button>
+
+</div>
+</div>
+
+<div class="barraInferior">
+
+<div class="navItem activo" onclick="irInicio()">
+<span>🏠</span>
+Inicio
+</div>
+
+<div class="navItem" onclick="verCerca()">
+<span>📍</span>
+Cerca
+</div>
+
+<div class="navItem" onclick="cargarPerfil()">
+<span>👤</span>
+Perfil
+</div>
+
+</div>
+</body>
+</html>
